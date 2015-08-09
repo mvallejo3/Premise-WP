@@ -1,0 +1,412 @@
+/**
+ * Premise WP Framework
+ *
+ * Admin side CSS
+ *
+ */
+
+/**
+ * Premise admin Generals
+ */
+.premise-admin,
+.premise-admin p{
+	font-size: 20px;
+}
+
+.premise-admin p{
+	font-weight: 300;
+	color: #777;
+}
+
+
+/**
+ * CSS Content Tabs
+ *
+ * @see http://www.onextrapixel.com/2013/07/31/creating-content-tabs-with-pure-css/
+ *
+ * @see premise_tab() for HTML generation
+ *
+ * Do NOT create more than 6 tabs
+ */
+.premise-tabs > li > input[type=radio] {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+}
+
+.premise-tabs {
+	width: 100%;
+	float: none;
+	list-style: none;
+	position: relative;
+	padding: 0;
+}
+
+.premise-tabs > li{
+	float: left;
+	text-align: center;
+	min-width: 148px;
+	margin-bottom: 0;
+}
+
+.premise-tabs > li > label {
+	display: block;
+	padding: 20px;
+	height: 63px;
+	font-weight: 300;
+	line-height: 150%;
+	background: #32373C;
+	color: #fff;
+	cursor: pointer;
+	position: relative;
+	top: 0;
+}
+
+.premise-tabs > li > .first{
+	cursor: default;
+	color: #27B4B4;
+	font-weight: normal;
+	font-size: smaller;
+	line-height: 1em;
+}
+
+.premise-tabs > li > .first img{
+	max-width: 100%;
+}
+
+
+/* Font awesome icons*/
+.premise-tabs > li > label .fa{
+	font-size: 1.5em;
+	display: block;
+}
+
+[id^=premise-tab]:checked + label {
+	background: #23282D;
+}
+
+/* Selected tab arrow */
+[id^=premise-tab]:checked + label:after {
+	position: absolute;
+	bottom: 0;
+	left: 47%;
+	left: calc( 50% - 16px );
+	content: '';
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 16px 16px 16px;
+	border-color: transparent transparent #fff transparent;
+}
+
+[id^=premise-tab]:checked ~ [id^=premise-tab-content] {
+	display: block;
+}
+
+.premise-tab-content{
+	z-index: 2;
+	display: none;
+	text-align: left;
+	width: 100%;
+	font-size: 20px;
+	position: absolute;
+	top: 103px;
+	left: 0;
+	padding: 0 20px;
+	box-sizing: border-box;
+	background: #fff;
+}
+
+/* Responsive Tabs */
+/* Below 768px: reduce tab size by 2 */
+@media screen and (max-width:767px) {
+
+	.premise-tabs > li > label{
+		padding: 10px;
+		height: 32px;
+		overflow-y: hidden;
+	}
+
+	.premise-tabs > li > label .fa {
+		font-size: 1em;
+		display: inline;
+	}
+
+	/* remove arrow */
+	[id^=premise-tab]:checked + label:after {
+		border-width: 0;
+	}
+}
+
+/* Below 480px: remove first tab */
+@media screen and (max-width:479px) {
+
+	.premise-tabs > li > .first{
+		display: none;
+	}
+}
+
+
+/**
+ * Form Elements
+ */
+.field > label,
+.field p.label {
+	display: inline-block;
+	line-height: 150%;
+	vertical-align:middle;
+	text-transform: uppercase;
+	margin:0 10px 5px 0;
+}
+
+.premise-admin .field > label,
+.premise-admin .field p.label {
+	font-weight: 300;
+}
+
+/* Field Tooltip */
+.field > span.tooltip {
+	position:relative;
+	display:inline-block;
+	vertical-align: top;
+	line-height:150%;
+	color:#fff;
+	margin-left:0px;
+	cursor: help;
+}
+
+.field .tooltip:before{
+	color:#27b4b4;
+	font-family: 'FontAwesome';
+	content: "\f05a";
+}
+
+.field > span.tooltip > i {
+	visibility:hidden;
+	opacity:0;
+	position:absolute;
+	bottom:150%;
+	left:-20px;
+	width:200px;
+	z-index:999999;
+	background:#444;
+	display:inline-block;
+	padding:10px;
+	border-radius:10px;
+	-webkit-border-radius:10px;
+	-moz-border-radius:10px;
+	-ms-border-radius:10px;
+	-o-border-radius:10px;
+	transition: all .3s ease-in-out;
+	font-size: 1em;
+	line-height: 1.3em;
+}
+
+.premise-admin .field > span.tooltip > i {
+	font-size: 0.65em;
+}
+
+.field > span.tooltip:hover > i {
+	visibility:visible;
+	opacity:1;
+}
+
+.field {
+	display:block;
+	margin-bottom:20px;
+}
+
+.field > div,
+.field > div .minicolors {
+	display:block;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	position:relative;
+	min-height:33px;
+}
+
+.field > div:after,
+.field > div .minicolors {
+	content: "";
+	display:block;
+	clear:both;
+}
+
+.field input[type="text"],
+.field input[type="file"],
+.field input[type="tel"],
+.field input[type="username"],
+.field input[type="password"],
+.field select,
+.field textarea {
+	display:block;
+	line-height:1.3em;
+	padding:5px 8px;
+	background-color:#fff;
+	border:1px solid #ccc;
+	height: auto;
+	width:100%;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	font-size:1em;
+	font-family:inherit;
+	font-weight:300;
+	text-align:left;
+	-webkit-appearance:none;
+	border-radius: 8px;
+}
+
+.field textarea {
+	height:150px;
+	text-align:justify;
+}
+
+/*.field input[type="checkbox"] {
+	display:inline-block;
+	vertical-align:baseline;
+	line-height:inherit;
+	transition:all.3s ease-in-out;
+	-webkit-transition:all.3s ease-in-out;
+	-moz-transition:all.3s ease-in-out;
+	-o-transition:all.3s ease-in-out;
+	-ms-transition:all.3s ease-in-out;
+}
+
+.field input[type="checkbox"]+label {
+	display:inline-block;
+	vertical-align:baseline;
+	line-height:inherit;
+	margin-top:5px;
+	margin-left:10px;
+}*/
+
+/* file and icon fields */
+.field > .file > a,
+.field > .fa-icon > a {
+	display:inline-block;
+	position:absolute;
+	top: 1px;
+	padding:5px;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	border-left:1px solid #ccc;
+	line-height: 150%;
+	font-size:0.8em;
+	width:40px;
+	text-align:center;
+	background:#fff;
+}
+.field > .file > .premise-btn-upload,
+.field > .fa-icon > .premise-choose-icon {
+	right:41px;
+}
+.field > .file > .premise-btn-remove,
+.field > .fa-icon > .premise-remove-icon {
+	right:1px;
+}
+.field > .fa-icon > .fa-all-icons {
+	max-height:300px;
+	overflow:auto;
+	padding:10px;
+	border-bottom: 1px solid #ccc;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+.field > .fa-icon > .fa-all-icons > ul > li {
+	float:left;
+	border:1px solid #ccc;
+	margin:3px;
+}
+.field > .fa-icon > .fa-all-icons > ul > li a {
+	color: #444;
+	display:block;
+	padding:5px;
+	font-size:0.8em;
+}
+.field > .fa-icon > .fa-all-icons > ul > li a:hover {
+	opacity:.8;
+}
+
+.field::-webkit-input-placeholder,
+.field:-moz-placeholder,
+.field::-moz-placeholder,
+.field:-ms-input-placeholder	{
+	color:inherit;
+}
+
+/* minicolors field */
+.field input[type="text"].minicolors-input {
+	padding-left: 26px;
+}
+
+/**
+ * Switch checkbox
+ *
+ * @see http://www.sitepoint.com/css3-toggle-switch/
+ */
+.checkbox input:empty {
+	margin-left: -999px;
+}
+
+.checkbox input:empty ~ label {
+	position: relative;
+	float: left;
+	line-height: 1.8em;
+	margin: 0.2em 0;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	height: 1.8em;
+	color: #fff;
+}
+
+.checkbox input:empty ~ label:before, 
+.checkbox input:empty ~ label:after {
+	position: absolute;
+	display: block;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	content: ' ';
+	width: 5em;
+	background-color: #444;
+	border-radius: 0.3em;
+	-webkit-transition: all 100ms ease-in;
+	transition: all 100ms ease-in;
+}
+
+.checkbox input:empty ~ label:after {
+	width: 2.4em;
+	top: 0.1em;
+	bottom: 0.1em;
+	margin-left: 2.5em;
+	background-color: #fff;
+	border-radius: 0;
+	border-top-right-radius: 0.3em;
+	border-bottom-right-radius: 0.3em;
+}
+
+.checkbox input:checked ~ label:after {
+	border-radius: 0;
+	border-top-left-radius: 0.3em;
+	border-bottom-left-radius: 0.3em;
+}
+
+.checkbox input:empty ~ label:before {
+	content: 'OFF';
+	text-indent: 0.3em;
+}
+.checkbox input:checked ~ label:before {
+	content: 'ON';
+	text-indent: 2.9em;
+}
+
+.checkbox input:checked ~ label:before {
+	background-color: #27b4b4;
+}
+
+.checkbox input:checked ~ label:after {
+	margin-left: 0.1em;
+}
