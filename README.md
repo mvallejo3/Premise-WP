@@ -231,4 +231,26 @@ function main_nav()
 
 ?>
 
-```
+```  
+
+===  
+
+## Premise Hooks  
+
+Premise includes a variety of hooks that you can use to change or customize the way Premise behaves in your project. Here is a list of hooks and a brief description of what each hook does.  
+
+* Hook * | * Type * | * Description  * | * Parameters * |
+---------|----------|------------------|----------------|
+premise_field_label_html | Filter | do hook for label html string | Params..
+premise_field_raw_html | Filter | filter the html for the field itself | Params..
+premise_field_html_after_wrapper | Filter | insert html after the field wrapper | Params..
+premise_field_html | Filter | filter the html for the whole field | Params..
+premise_field_input | Filter | filter the input field html | Params..
+premise_field_upload_btn | Filter | filter the wp media upload button | Params..
+premise_field_remove_btn | Filter | filter the wp media remove button | Params..
+premise_field_icon_insert_btn | Filter | do filter for button to show fa icon | Params..
+premise_field_icon_remove_btn | Filter | do filter for button to hide fa icon | Params..
+premise_field_fa_icon_html | Filter | do filter for fa_icon field | Params..
+premiseFieldAfterInit | Filter | do hook after PremiseField object inits | Params..
+premiseFieldAfterFaIconsOpen | Filter | do hook after icons box opens | Params..
+premiseFieldAfterFaIconsClose | Filter | do hook after icons close | Params..

@@ -336,6 +336,8 @@ class PremiseField {
 		 *
 		 * @since 1.2 Added with new premise field class
 		 * 
+		 * @premise-hook premise_field_label_html do hook for label html string
+		 *
 		 * @var string
 		 */
 		$this->label = apply_filters( 'premise_field_label_html', $label, $this->field, $this->type );
@@ -392,6 +394,8 @@ class PremiseField {
 		 * Allow you to change the html passed to the field element
 		 *
 		 * @since 1.2 
+		 *
+		 * @premise-hook premise_field_raw_html filter the html for the field itself
 		 * 
 		 * @var string
 		 */
@@ -428,6 +432,8 @@ class PremiseField {
 			 *
 			 * @since 1.2 
 			 *
+			 * @premise-hook premise_field_html_after_wrapper insert html after the field wrapper
+			 *
 			 * @var string has to return html string
 			 */
 			$html .= apply_filters( 'premise_field_html_after_wrapper', '', $this->field, $this->type );
@@ -440,6 +446,8 @@ class PremiseField {
 		 * Allow you to change the html passed to the field element
 		 *
 		 * @since 1.2 
+		 *
+		 * @premise-hook premise_field_html filter the html for the whole field
 		 * 
 		 * @var string
 		 */
@@ -468,6 +476,8 @@ class PremiseField {
 		 * Filter to alter html of input field after creating it
 		 *
 		 * @since 1.2 added to offer more control over markup
+		 *
+		 * @premise-hook premise_field_input filter the input field html
 		 */
 		return apply_filters( 'premise_field_input', $field, $this->field, $this->type );
 
@@ -658,11 +668,19 @@ class PremiseField {
 
 		/**
 		 * Filter to alter the html on the media upload btn
+		 *
+		 * @since 1.2
+		 *
+		 * @premise-hook premise_field_upload_btn filter the wp media upload button
 		 */
 		$field .= apply_filters( 'premise_field_upload_btn', $this->btn_upload_file, $this->field );
 
 		/**
 		 * Filter to alter the html on the media remove button
+		 *
+		 * @since 1.2 
+		 * 
+		 * @premise-hook premise_field_remove_btn filter the wp media remove button
 		 */
 		$field .= apply_filters( 'premise_field_remove_btn', $this->btn_remove_file, $this->field );
 
@@ -713,14 +731,29 @@ class PremiseField {
 
 		/**
 		 * Filter to alter the html on the icon select btn
+		 *
+		 * @since 1.2
+		 *
+		 * @premise-hook premise_field_icon_insert_btn do filter for button to show fa icon
 		 */
 		$field .= apply_filters( 'premise_field_icon_insert_btn', $this->btn_insert_icon, $this->field );
 
 		/**
 		 * Filter to alter the html on the icon remove button
+		 *
+		 * @since 1.2
+		 *
+		 * @premise-hook premise_field_icon_remove_btn do filter for button to hide fa icon
 		 */
 		$field .= apply_filters( 'premise_field_icon_remove_btn', $this->btn_remove_icon, $this->field );
 
+		/**
+		 * premise_field_fa_icon_html
+		 *
+		 * @since 1.2
+		 *
+		 * @premise-hook premise_field_fa_icon_html do filter for fa_icon field
+		 */
 		return apply_filters( 'premise_field_fa_icon_html', $field, $this->field, $this->type );
 	}
 
@@ -744,7 +777,11 @@ class PremiseField {
 
 
 
-
+	/**
+	 * Display the fa-icons for user to choose from
+	 * 
+	 * @return string html for fa icons
+	 */
 	public function fa_icons() {
 		$icons = '<div class="premise-fa-all-icons" style="display:none;"><ul>';
 		
@@ -762,10 +799,6 @@ class PremiseField {
 
 		return $icons;
 	}
-
-
-
-
 
 
 
@@ -821,8 +854,6 @@ class PremiseField {
 
 
 
-
-
 	/**
 	 * Get id attribute for field from name
 	 *
@@ -853,8 +884,6 @@ class PremiseField {
 			return esc_attr( $name );
 		}
 	}
-
-
 
 
 
@@ -892,11 +921,16 @@ class PremiseField {
 
 
 
-
-
+	/**
+	 * Get the field
+	 * 
+	 * @return string html for complete field
+	 */
 	public function get_field() {
 		return $this->html;
 	}
+
+
 
 
 }

@@ -59,6 +59,17 @@ var PremiseField = {
 
 		// bind events
 		this.bindEvents();
+
+		/**
+		 * premiseFieldAfterInit
+		 * 
+		 * @premise-hook premiseFieldAfterInit do hook after PremiseField object inits
+		 *
+		 * @since 1.2
+		 *
+		 * @param {object} this passes the object as parameter
+		 */
+		jQuery(document).trigger('premiseFieldAfterInit', this);
 	},
 
 
@@ -99,16 +110,16 @@ var PremiseField = {
 		jQuery(icons).show('fast');
 
 		/**
-		 * premiseAfterFaIconsOpen
+		 * premiseFieldAfterFaIconsOpen
 		 * 
-		 * do hook after icons open
+		 * @premise-hook premiseFieldAfterFaIconsOpen do hook after icons box opens
 		 *
 		 * @since  1.2
 		 *
 		 * @param {object} icons jQuery object for element holding all icons
 		 * @param {object} parent jQuery object for field main element
 		 */
-		jQuery(document).trigger('premiseAfterFaIconsOpen', icons, parent );
+		jQuery(document).trigger('premiseFieldAfterFaIconsOpen', icons, parent );
 
 		// also add event for icons slection
 
@@ -143,16 +154,16 @@ var PremiseField = {
 		jQuery(icons).hide('fast');
 
 		/**
-		 * premiseAfterFaIconsClose
+		 * premiseFieldAfterFaIconsClose
 		 * 
-		 * do hook after icons close
+		 * @premise-hook premiseFieldAfterFaIconsClose do hook after icons close
 		 *
 		 * @since  1.2
 		 *
 		 * @param {object} icons jQuery object for element holding all icons
 		 * @param {object} parent jQuery object for field main element
 		 */
-		jQuery(document).trigger('premiseAfterFaIconsClose', icons, parent );
+		jQuery(document).trigger('premiseFieldAfterFaIconsClose', icons, parent );
 
 		// Just in case
 		PremiseField.bindEvents();
