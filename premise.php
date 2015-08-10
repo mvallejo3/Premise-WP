@@ -206,7 +206,7 @@ class Premise_WP_FW_Class {
 		wp_register_style( 'premise_style_css'   , PREMISE_URL . 'css/premise.css', array( 'premise_font_awesome' ) );
 		
 		//register scripts
-		wp_register_script( 'premise_script_js'  , PREMISE_URL . 'js/premise.js', array( 'jquery' ) );
+		wp_register_script( 'premise_script_js'  , PREMISE_URL . 'js/Premise-Wp.min.js', array( 'jquery' ) );
 
 		//FJ if is admin, register & enqueue jquery.minicolors + ms-Dropdown + premise_admin
 		if ( is_admin() ) {

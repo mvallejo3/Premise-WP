@@ -1,5 +1,10 @@
 jQuery(function($){
 
+	/**
+	 * Initiate the Premise Field Object
+	 */
+	PremiseField.init();
+
 	premiseSameHeight();
 
 	premiseMinicolors();
