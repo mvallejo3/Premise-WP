@@ -239,7 +239,7 @@ function main_nav()
 
 Premise includes a variety of hooks that you can use to change or customize the way Premise behaves in your project. Here is a list of hooks and a brief description of what each hook does.  
 
-* Hook * | * Type * | * Description  * | * Parameters * |
+*Hook*|*Type*|*Description *|*Parameters* |
 ---------|----------|------------------|----------------|
 premise_field_label_html | Filter | do hook for label html string | Params..
 premise_field_raw_html | Filter | filter the html for the field itself | Params..
