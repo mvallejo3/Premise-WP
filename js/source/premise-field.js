@@ -81,13 +81,24 @@ var PremiseField = {
 		 */
 		jQuery(document).trigger('premiseAfterFaIconsOpen', icons, parent );
 
+		// also add event for icons slection
+
 		jQuery(document).on('click', 'body', PremiseField.hideIcons);
 
 		return false;
 	},
 
 
-
+	/**
+	 * Hide Icons
+	 *
+	 * This hides icons and deletes the field's value
+	 * If the user simply click somehwere else in the screen
+	 * the icons window will close. This event will additionally
+	 * dellet the icon field.
+	 * 
+	 * @return {void} close window and deletes field's vlaue
+	 */
 	hideIcons: function() {
 		
 		var parent = PremiseField.faHideIconsBtn.parents('.premise-field');
