@@ -93,10 +93,28 @@ var PremiseField = {
 		var parent = PremiseField.faHideIconsBtn.parents('.premise-field');
 		var icons = parent.find('.premise-fa-all-icons');
 
+		/**
+		 * Delete value from Icon field
+		 */
+		parent.find('.premise-fa_icon').val('');
+
 		jQuery(icons).hide('fast');
 
-		return false;
+		/**
+		 * premiseAfterFaIconsClose
+		 * 
+		 * do hook after icons close
+		 *
+		 * @since  1.2
+		 *
+		 * @param {object} icons jQuery object for element holding all icons
+		 * @param {object} parent jQuery object for field main element
+		 */
+		jQuery(document).trigger('premiseAfterFaIconsClose', icons, parent );
 
-		// add hool after fa icons close
+		// Just in case
+		PremiseField.bindEvents();
+
+		return false;
 	}
 }
