@@ -1,8 +1,24 @@
 /**
- * 
+ * Premise Field Object JS
+ *
+ * @author Mario Vallejo <mario@vallgroup.com>
+ * @since 1.2
  */
 
 
+
+
+/**
+ * PremiseField
+ *
+ * Holds functionality for all premise fields.
+ *
+ * @since 1.2
+ *
+ * @package PremiseField
+ * 
+ * @type {Object}
+ */
 var PremiseField = {
 
 
@@ -16,6 +32,7 @@ var PremiseField = {
 
 
 
+
 	/**
 	 * Holds jquery object for the button that toggles
 	 * fa icons.
@@ -25,6 +42,8 @@ var PremiseField = {
 	faHideIconsBtn: null,
 
 
+
+
 	/**
 	 * Construct our object
 	 * 
@@ -32,16 +51,24 @@ var PremiseField = {
 	 */
 	init: function() {
 
+		// The show icons button
 		this.faShowIconsBtn = jQuery('.premise-field-fa_icon .premise-choose-icon');
 
+		// The hide icons button
 		this.faHideIconsBtn = jQuery('.premise-field-fa_icon .premise-remove-icon');
 
-
+		// bind events
 		this.bindEvents();
 	},
 
 
 
+
+	/**
+	 * Bind Evenets needed for Fields to work properly
+	 * 
+	 * @return {void} Binds events
+	 */
 	bindEvents: function() {
 
 		/**
@@ -55,6 +82,8 @@ var PremiseField = {
 		 */
 		this.faHideIconsBtn.click(PremiseField.hideIcons);
 	},
+
+
 
 
 	/**
@@ -87,6 +116,8 @@ var PremiseField = {
 
 		return false;
 	},
+
+
 
 
 	/**
