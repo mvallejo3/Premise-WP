@@ -239,18 +239,20 @@ function main_nav()
 
 Premise includes a variety of hooks that you can use to change or customize the way Premise behaves in your project. Here is a list of hooks and a brief description of what each hook does.  
 
-Hook                               | Type         | Description                             | Parameters                                                     |
----------                          | :----------: | ------------------                      | ----------------                                               |
-`premise_field_label_html`         | Filter       | do hook for label html string           | `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field
-`premise_field_raw_html`           | Filter       | filter the html for the field itself    | `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field
-`premise_field_html_after_wrapper` | Filter       | insert html after the field wrapper     | `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field
-`premise_field_html`               | Filter       | filter the html for the whole field     | `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field
-`premise_field_input`              | Filter       | filter the input field html             | `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field
-`premise_field_upload_btn`         | Filter       | filter the wp media upload button       | `$button` (string) button HTML, `$field` (array) field options
-`premise_field_remove_btn`         | Filter       | filter the wp media remove button       | `$button` (string) button HTML, `$field` (array) field options
-`premise_field_icon_insert_btn`    | Filter       | do filter for button to show fa icon    | `$button` (string) button HTML, `$field` (array) field options
-`premise_field_icon_remove_btn`    | Filter       | do filter for button to hide fa icon    | `$button` (string) button HTML, `$field` (array) field options
-`premise_field_fa_icon_html`       | Filter       | do filter for fa_icon field             | Params..
-`premiseFieldAfterInit`            | Filter       | do hook after PremiseField object inits | Params..
-`premiseFieldAfterFaIconsOpen`     | Filter       | do hook after icons box opens           | Params..
-`premiseFieldAfterFaIconsClose`    | Filter       | do hook after icons close               | Params..
+Hook                               | Type         | Description                             |<!--  Parameters                                                                            | -->
+---------                          | :----------: | ------------------                      |<!--  ----------------                                                                      | -->
+`premise_field_label_html`         | Filter       | do hook for label html string           |<!--  `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field | -->
+`premise_field_raw_html`           | Filter       | filter the html for the field itself    |<!--  `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field | -->
+`premise_field_html_after_wrapper` | Filter       | insert html after the field wrapper     |<!--  `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field | -->
+`premise_field_html`               | Filter       | filter the html for the whole field     |<!--  `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field | -->
+`premise_field_input`              | Filter       | filter the input field html             |<!--  `$html` (string) HTML, `$field` (array) field options, `$type` (string) Type of field | -->
+`premise_field_upload_btn`         | Filter       | filter the wp media upload button       |<!--  `$button` (string) button HTML, `$field` (array) field options                        | -->
+`premise_field_remove_btn`         | Filter       | filter the wp media remove button       |<!--  `$button` (string) button HTML, `$field` (array) field options                        | -->
+`premise_field_icon_insert_btn`    | Filter       | do filter for button to show fa icon    |<!--  `$button` (string) button HTML, `$field` (array) field options                        | -->
+`premise_field_icon_remove_btn`    | Filter       | do filter for button to hide fa icon    |<!--  `$button` (string) button HTML, `$field` (array) field options                        | -->
+`premise_field_fa_icon_html`       | Trigger      | do filter for fa_icon field             |<!--  Params..                                                                              | -->
+`premiseFieldAfterInit`            | Trigger      | do hook after PremiseField object inits |<!--  Params..                                                                              | -->
+`premiseFieldAfterFaIconsOpen`     | Trigger      | do hook after icons box opens           |<!--  Params..                                                                              | -->
+`premiseFieldAfterFaIconsClose`    | Trigger      | do hook after icons close               |<!--  Params..                                                                              | -->
+
+===
