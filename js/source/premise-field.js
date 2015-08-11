@@ -13,8 +13,6 @@
  *
  * Holds functionality for all premise fields.
  *
- * @since 1.2
- *
  * @package PremiseField
  * 
  * @type {Object}
@@ -91,7 +89,17 @@ var PremiseField = {
 		/**
 		 * Bind event for fa_icons to hide and delete
 		 */
-		this.faHideIconsBtn.click(PremiseField.hideIcons);
+		this.faHideIconsBtn.click(function(){
+			/**
+			 * Delete value from Icon field only when 'x' is clicked
+			 */
+			jQuery(this).parents('.premise-field').find('input.premise-fa_icon').val('');
+			
+			/**
+			 * hide Icon box
+			 */
+			PremiseField.hideIcons
+		});
 	},
 
 
@@ -105,7 +113,7 @@ var PremiseField = {
 	showIcons: function() {
 
 		var parent = PremiseField.faShowIconsBtn.parents('.premise-field');
-		var icons = parent.find('.premise-fa-all-icons');
+		var icons = parent.find('.premise-field-fa-icons-container');
 
 		jQuery(icons).show('fast');
 
@@ -122,7 +130,9 @@ var PremiseField = {
 		jQuery(document).trigger('premiseFieldAfterFaIconsOpen', icons, parent );
 
 		// also add event for icons slection
+		jQuery(document).on('click', '.premise-field-fa-icon-anchor', PremiseField.insertIcon);
 
+		// bind body to close icons box
 		jQuery(document).on('click', 'body', PremiseField.hideIcons);
 
 		return false;
@@ -144,13 +154,11 @@ var PremiseField = {
 	hideIcons: function() {
 		
 		var parent = PremiseField.faHideIconsBtn.parents('.premise-field');
-		var icons = parent.find('.premise-fa-all-icons');
+		var icons = parent.find('.premise-field-fa-icons-container');
 
 		/**
-		 * Delete value from Icon field
+		 * Hide icons box
 		 */
-		parent.find('.premise-fa_icon').val('');
-
 		jQuery(icons).hide('fast');
 
 		/**
@@ -169,5 +177,21 @@ var PremiseField = {
 		PremiseField.bindEvents();
 
 		return false;
+	},
+
+
+
+	/**
+	 * insert selected icon into our icon field
+	 * 
+	 * @return {string} icon class to use
+	 */
+	insertIcon: function() {
+		// get icon
+		var icon = jQuery(this).attr('data-icon');
+		// place it in field
+		jQuery(this).parents('.premise-field').find('input.premise-fa_icon').val(icon);
+		// close icons
+		jQuery('body').trigger('click');
 	}
 }

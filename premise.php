@@ -203,7 +203,7 @@ class Premise_WP_FW_Class {
 	public function premise_scripts() {
 		//register styles
 		wp_register_style( 'premise_font_awesome', PREMISE_URL . 'includes/font-awesome-4.2.0/css/font-awesome.min.css' );
-		wp_register_style( 'premise_style_css'   , PREMISE_URL . 'css/premise.css', array( 'premise_font_awesome' ) );
+		wp_register_style( 'premise_style_css'   , PREMISE_URL . 'css/Premise-Wp.min.css', array( 'premise_font_awesome' ) );
 		
 		//register scripts
 		wp_register_script( 'premise_script_js'  , PREMISE_URL . 'js/Premise-Wp.min.js', array( 'jquery' ) );

@@ -246,6 +246,7 @@ Hook                               | Type         | Description                 
 `premise_field_html_after_wrapper` | Filter       | insert html after the field wrapper     |
 `premise_field_html`               | Filter       | filter the html for the whole field     |
 `premise_field_input`              | Filter       | filter the input field html             |
+`premise_field_textarea`           | Filter       | filter the textarea field html          |
 `premise_field_upload_btn`         | Filter       | filter the wp media upload button       |
 `premise_field_remove_btn`         | Filter       | filter the wp media remove button       |
 `premise_field_icon_insert_btn`    | Filter       | do filter for button to show fa icon    |

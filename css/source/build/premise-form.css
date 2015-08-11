@@ -1,0 +1,148 @@
+/**
+ * Premise Forms CSS
+ *
+ * This file contains all the main Premise styles for form elements
+ */
+
+
+.premise-field {
+	position: relative;
+	display: block;
+	margin-bottom: 20px;
+}
+
+.premise-field > div {
+	position: relative;
+}
+
+.premise-field > div > input,
+.premise-field > div > textarea,
+.premise-field > div > select {
+	border: 1px solid #888;
+	border-radius: 2px;
+	background: #fff;
+	box-sizing: border-box;
+}
+
+
+.premise-field > div > input[type="text"],
+.premise-field > div > input[type="file"],
+.premise-field > div > input[type="tel"],
+.premise-field > div > input[type="username"],
+.premise-field > div > input[type="password"],
+.premise-field > div > input[type="email"],
+.premise-field > div > input[type="number"],
+.premise-field > div > textarea,
+.premise-field > div > select {
+	display: block;
+	width: 100%;
+	-webkit-appearance: none;
+	padding: 5px;
+}
+
+.premise-field > div > select {
+	background: #d1d3d4;
+}
+
+.premise-field > div.select {
+	position: relative;
+}
+.premise-field > div.select:after {
+	content: '';
+	width: 20px;
+	height: 14px;
+	background: url(/img/select_arrow.png) no-repeat center center / contain;
+	position: absolute;
+	top:  50%;
+	right: 20px;
+	margin-top: -7px;
+	pointer-events: none
+}
+
+.premise-field > div > input[type="checkbox"] {
+	-webkit-appearance: none;
+	padding: 8px;
+	margin-right: 10px;
+	background: #eee;
+	outline: 0;
+	transition: all .1s ease-in-out;
+}
+
+.premise-field > div > input[type="checkbox"]:checked {
+	/*border-radius: 10px;*/
+	background: #888;
+}
+
+.premise-field > div > input[type="checkbox"],
+.premise-field > div > input[type="checkbox"] + label {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/* Placeholders */
+.premise-field > div ::-webkit-input-placeholder {
+    color: #000;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+}
+.premise-field > div :-moz-placeholder {
+    color: #000;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+}
+.premise-field > div ::-moz-placeholder {
+    color: #000;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+}
+.premise-field > div :-ms-input-placeholder {
+    color: #000;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+}
+
+
+
+
+
+/**
+ * FontAwesome Icon Field
+ */
+.premise-field-fa_icon {
+
+}
+
+.premise-field > .premise-field-fa-icons-container {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	max-height: 300px;
+	overflow: auto;
+	border: 1px solid #888;
+	border-radius: 2px;
+	background: #fff;
+	box-sizing: border-box;
+	z-index: 1;
+}
+
+.premise-field > .premise-field-fa-icons-container .premise-field-fa-icon-li {
+	margin: 5px;
+}
+
+.premise-field > .premise-field-fa-icons-container .premise-field-fa-icon-anchor {
+	display: block;
+	padding: 5px;
+	transition: -webkit-transform .1s ease-in-out;
+	transition: transform .1s ease-in-out;
+	color: #444;
+	font-size: 28px;
+}
+
+.premise-field > .premise-field-fa-icons-container .premise-field-fa-icon-anchor:hover {
+	-webkit-transform: scale(1.8,1.8);
+	        transform: scale(1.8,1.8);
+}

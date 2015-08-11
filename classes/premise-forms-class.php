@@ -51,7 +51,7 @@ class PremiseField {
 		'name'       => '',      // name attribute. if empty fills from id
 		'id'         => '',      // id attribute. is empty fills from name
 		'value'      => '',      // value attribute. by default tries to get_option(name)
-		'value_att'  => '',     // value attribute. Used for checkboxes and radio
+		'value_att'  => '',      // value attribute. Used for checkboxes and radio
 		'default'    => '',      // if value is empty and get_option() return false
 		'options'    => array(), // options for select fields in this format ( Text => Value )
 		'attribute'  => '',      // html attributes to add to element i.e. onchange="doSomethingCool()"
@@ -144,7 +144,7 @@ class PremiseField {
 	 * @var string
 	 */
 	protected $btn_insert_icon = '<a 
-		href="javascript:;" 
+		href="javascript:void(0);" 
 		class="premise-choose-icon" 
 		><i class="fa fa-fw fa-th"></i></a>';
 
@@ -158,7 +158,7 @@ class PremiseField {
 	 * @var string
 	 */
 	protected $btn_remove_icon = '<a 
-		href="javascript:;" 
+		href="javascript:void(0);" 
 		class="premise-remove-icon" 
 		><i class="fa fa-fw fa-times"></i></a>';
 
@@ -383,6 +383,10 @@ class PremiseField {
 				$html .= $this->fa_icon();
 				break;
 
+			case 'video':
+				$html .= $this->video();
+				break;
+
 			default:
 				$html .= $this->input_field();
 				break;
@@ -496,7 +500,7 @@ class PremiseField {
 	 */
 	protected function textarea() {
 		
-		$field = '<textarea ';
+		$field = '<textarea';
 
 		foreach ( $this->field as $k => $v ) {
 			$field .= ( ! empty( $v ) && 'value' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
@@ -504,7 +508,14 @@ class PremiseField {
 
 		$field .= '>'.$this->field['value'].'</textarea>';
 
-		return $field;
+		/**
+		 * premise_field_textarea
+		 * 
+		 * @premise-hook premise_field_textarea filter the textarea field html
+		 *
+		 * @since 1.2
+		 */
+		return apply_filters( 'premise_field_textarea', $field, $this->field, $this->type );
 	}
 
 
@@ -783,12 +794,12 @@ class PremiseField {
 	 * @return string html for fa icons
 	 */
 	public function fa_icons() {
-		$icons = '<div class="premise-fa-all-icons" style="display:none;"><ul>';
+		$icons = '<div class="premise-field-fa-icons-container" style="display:none;"><ul>';
 		
 		foreach ( (array) premise_get_fa_icons() as $icon ) {
 			
-			$icons .= '<li class="premise-inline-block premise-float-left">
-				<a href="javascript:;" onclick="" class="premise-block" data-icon="'.$icon.'">
+			$icons .= '<li class="premise-field-fa-icon-li premise-inline-block premise-float-left">
+				<a href="javascript:;" class="premise-field-fa-icon-anchor premise-block" data-icon="'.$icon.'">
 					<i class="fa fa-fw '.$icon.'"></i>
 				</a>
 			</li>';
@@ -798,6 +809,53 @@ class PremiseField {
 		$icons .= '</ul></div>';
 
 		return $icons;
+	}
+
+
+
+
+	/**
+	 * build video field
+	 *
+	 * Right now this only returns a textarea with some classes added to it. 
+	 * Eventually this should have options to search for video to embed and
+	 * display the video belo or something.
+	 *
+	 * @since 1.2
+	 */
+	protected function video() {
+
+		/**
+		 * We our own filter to alter the html of our input field
+		 */
+		add_filter( 'premise_field_textarea', array( $this, 'video_textarea' ) );
+
+		/**
+		 * call the input field. 
+		 * 
+		 * This will be alter due to our hook above
+		 * 
+		 * @var string
+		 */
+		$field = $this->textarea();
+
+		return $field;
+	}
+
+
+
+
+
+	/**
+	 * Filter the textarea for video field
+	 *
+	 * @since 1.2 
+	 * 
+	 * @param  string $field html for textarea field
+	 * @return string        new html
+	 */
+	public function video_textarea( $field ) {
+		return str_replace( '<textarea', '<textarea data-type="video" class="premise-video"', $field );
 	}
 
 
