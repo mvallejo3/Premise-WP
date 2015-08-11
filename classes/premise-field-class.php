@@ -176,6 +176,20 @@ class PremiseField {
 
 
 	/**
+	 * Stores all filters that were used for a particular field
+	 *
+	 * @since 1.2 added to remove filters at the end
+	 *
+	 * @see remove_filters() runs at the end to make sure no filters repeat
+	 * 
+	 * @var array
+	 */
+	protected $filters_used = array();
+
+
+
+
+	/**
 	 * construct our object
 	 * 
 	 * @param array $args array holding one or more fields
@@ -233,21 +247,37 @@ class PremiseField {
 	 * @return array all arguments. array of arrays.
 	 */
 	protected function set_defaults() {
+
 		/**
 		 * parse defaults and arguments
 		 * 
 		 * @var array
 		 */
-		$field = $this->field = wp_parse_args( $this->args, $this->defaults );
+		$field = wp_parse_args( $this->args, $this->defaults );
 
 		/**
 		 * Make sure our field has its necessary values
 		 *
 		 * Get the name field first since it is needed for the value field to be retreived.
 		 */
-		$field['name']  = ! empty( $field['name'] )  ? esc_attr( $field['name'] )  : $this->get_name( $field['id'] );
-		$field['value'] = ! empty( $field['value'] ) ? $field['value'] : $this->get_db_value( $field['name'] );
-		$field['id']    = ! empty( $field['id'] )    ? esc_attr( $field['id'] )    : $this->get_id_att( $field['name'] );
+		$field['name']  = ! empty( $field['name'] )  ? esc_attr( $field['name'] ) : $this->get_name( $field['id'] );
+		$field['value'] = ! empty( $field['value'] ) ? $field['value']            : $this->get_db_value( $field['name'] );
+		$field['id']    = ! empty( $field['id'] )    ? esc_attr( $field['id'] )   : $this->get_id_att( $field['name'] );
+
+		/**
+		 * assign common attributes
+		 *
+		 * This allows the user to submit a param within the array of arguments in a simpler manner, like array( 'required' => true )
+		 * instead of array( 'required' => 'required' ).
+		 *
+		 * This params are also used in some places in our object to insert or add additioinal functionality to a field. 
+		 * e.g. On the select field if 'multiple' has been passed then we handle our options differenlty (array instead of string).
+		 *
+		 * @since 1.2 
+		 */
+		$field['required'] = ( isset( $field['required'] ) && $field['required'] ) ? 'required' : '';
+		$field['multiple'] = ( isset( $field['multiple'] ) && $field['multiple'] ) ? 'multiple' : '';
+		$field['disabled'] = ( isset( $field['disabled'] ) && $field['disabled'] ) ? 'disabled' : '';
 
 		$this->field = $field;
 	}
@@ -298,10 +328,19 @@ class PremiseField {
 			$filter = explode( ':', $this->field['add_filter'] );
 
 			add_filter( $filter[0], $filter[1] );
+
+			array_push( $this->filters_used, $filter[0] );
 		}
 
-		if ( 'fa_icon' == $this->type ) 
+		if ( 'fa_icon' == $this->type ) {
 			add_filter( 'premise_field_html_after_wrapper', array( $this, 'fa_icons' ) );
+			array_push( $this->filters_used, 'premise_field_html_after_wrapper' );
+		}
+
+		if ( 'checkbox' == $this->type || 'radio' == $this->type ) {
+			add_filter( 'premise_field_label_html', array( $this, 'silent_label' ) );
+			array_push( $this->filters_used, 'premise_field_label_html' );
+		}
 		
 		unset( $this->field['add_filter'] );
 	}
@@ -319,11 +358,13 @@ class PremiseField {
 	 */
 	protected function the_label() {
 		$label = '';
+
 		if ( ! empty( $this->field['label'] ) ) {
 			$label .= '<label';
-			$label .= ! empty( $this->field['id'] ) ? ' for="'.esc_attr( $this->field['id'] ).'">' : '>';
+			$label .= ! empty( $this->field['id'] )       ? ' for="'.esc_attr( $this->field['id'] ).'">'                                           : '>';
 			$label .= esc_attr( $this->field['label'] );
-			$label .= ! empty( $this->field['tooltip'] ) ? ' <span class="premise-tooltip"><i>'.esc_attr( $this->field['tooltip'] ).'</i></span>' : '';
+			$label .= ! empty( $this->field['required'] ) ? ' <span class="premise-required">*</span>'                                             : '';
+			$label .= ! empty( $this->field['tooltip'] )  ? ' <span class="premise-tooltip"><i>'.esc_attr( $this->field['tooltip'] ).'</i></span>' : '';
 			$label .= '</label>';
 		}
 
@@ -412,7 +453,10 @@ class PremiseField {
 
 
 	/**
-	 * This function builds our field and saves the html markup for it
+	 * Builds our field and saves the html markup for it
+	 * in our object
+	 *
+	 * @return string HTML for field
 	 */
 	protected function build_field() {
 
@@ -421,7 +465,7 @@ class PremiseField {
 		 * 
 		 * @var string
 		 */
-		$html = '<div class="premise-field">';
+		$html = '<div class="'.$this->get_wrapper_class().'">';
 		
 			$html .= $this->label;
 
@@ -456,6 +500,13 @@ class PremiseField {
 		 * @var string
 		 */
 		$this->html = apply_filters( 'premise_field_html', $html, $this->field, $this->type );
+
+		/**
+		 * Remove filters
+		 *
+		 * @since 1.2 remove filters used
+		 */
+		$this->remove_filters();
 	}
 
 
@@ -500,7 +551,7 @@ class PremiseField {
 		
 		$field = '<textarea';
 
-		$fied .= $this->get_atts();
+		$field .= $this->get_atts();
 
 		$field .= '>'.$this->field['value'].'</textarea>';
 
@@ -530,16 +581,7 @@ class PremiseField {
 		
 		$field .= $this->get_atts();
 
-		/**
-		 * Close the field
-		 * Add label if needed and id has been passed
-		 */
-		if ( ! empty( $this->label ) ) 
-			$field .= '><span class="premise-field-state"></span>';
-		elseif ( !empty( $this->field['id'] ) )  
-			$field .= '><label for="'.esc_attr( $this->field['id'] ).'" class="premise-field-state"></label>';
-		else 
-			$field .= '>';
+		$field .= '><label for="'.esc_attr( $this->field['id'] ).'" class="premise-field-state"></label>';
 
 		return $field;
 
@@ -561,18 +603,27 @@ class PremiseField {
 		
 		$field .= $this->get_atts();
 
-		/**
-		 * Close the field
-		 * Add label if needed and id has been passed
-		 */
-		if ( ! empty( $this->label ) ) 
-			$field .= '><span class="premise-field-state"></span>';
-		elseif ( !empty( $this->field['id'] ) )  
-			$field .= '><label for="'.esc_attr( $this->field['id'] ).'" class="premise-field-state"></label>';
-		else 
-			$field .= '>';
+		$field .= '><label for="'.esc_attr( $this->field['id'] ).'" class="premise-field-state"></label>';
 
 		return $field;
+	}
+
+
+
+
+
+	/**
+	 * Silent Label
+	 *
+	 * Return a label for field that is not clickable
+	 * Used for checkbox fields and radio fields
+	 *
+	 * @since 1.2 
+	 * 
+	 * @return string returns silent label
+	 */
+	public function silent_label( $label ) {
+		return str_replace( array( '<label', '</label>' ), array( '<p class="premise-label"', '</p>' ), $label );
 	}
 
 
@@ -882,13 +933,43 @@ class PremiseField {
 			$val = premise_get_option( $option, $keys );
 		}
 		else {
-			$val = get_option( $name );
+			$val = $this->get_value_by_context(); //get_option( $name );
 		}
 
 		if ( $val ) 
 			return esc_attr( $val );
 		else 
 			return ! empty( $this->field['default'] ) ? esc_attr( $this->field['default'] ) : '';
+	}
+
+
+
+
+
+	/**
+	 * get value of a field by context
+	 *
+	 * Context applies to where the field is saved. By default fields are assumed to be safed
+	 * in the options table. But if adding fields to a custom post type, get_option() would not work anymore
+	 * so we pass the context 'post' and then Premise knows to get value from get_post_meta instead of get_option
+	 *
+	 * @since 1.2 
+	 * 
+	 * @return mixed value found
+	 */
+	protected function get_value_by_context() {
+		$context = $this->args['context'];
+		
+		switch( $context ) {
+			case 'post':
+				global $post;
+				return get_post_meta( $post->ID, $this->args['name'], true );
+			break;
+
+			default :
+				return get_option( $this->args['name'] );
+			break;
+		}
 	}
 
 
@@ -956,41 +1037,66 @@ class PremiseField {
 	 */
 	protected function get_atts() {
 
-		$field = '';
+		$field = ! empty( $this->field['attribute'] ) ? ' ' . $this->field['attribute'] : '';
 
-		switch( $this->type ) {
+		$_field = $this->field;
 
-			case 'select':
-				foreach ( $this->field as $k => $v ) {
-					$field .= ( ! empty( $v ) && 'value' !== $k && 'options' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
-				}
-			break;
+		if ( 'select' == $this->type || 'textarea' == $this->type )
+			unset( $_field['value'] );
 
-			case 'radio':
-			case 'cehckbox':
-				foreach ( $this->field as $k => $v ) {
-					if ( 'value_att' == $k && ! empty( $v ) ) {
-						$field .= checked( $this->field['value'], $v, false );
-						continue;
-					}
-					$field .= ( ! empty( $v ) && 'label' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
-				}
-			break;
+		if ( 'radio' == $this->type || 'checkbox' == $this->type )
+			$field .= ! empty( $this->field['value_att'] ) && ! empty( $_field['value'] ) ? ' ' . checked( $this->field['value_att'], $_field['value'], false ) : '';
 
-			case 'textarea':
-				foreach ( $this->field as $k => $v ) {
-					$field .= ( ! empty( $v ) && 'value' !== $k && 'label' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
-				}
-			break;
+		unset( $_field['label'] );
+		unset( $_field['tooltip'] );
+		unset( $_field['add_filter'] );
+		unset( $_field['template'] );
+		unset( $_field['default'] );
+		unset( $_field['options'] );
+		unset( $_field['value_att'] );
+		unset( $_field['attribute'] ); 
 
-			default :
-				foreach ( $this->field as $k => $v ) {
-					$field .= ( ! empty( $v ) && 'label' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
-				}
-			break;
+		foreach ( $_field as $k => $v ) {
+			$field .= ! empty( $v ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
 		}
 		
 		return $field;
+	}
+
+
+
+
+	/**
+	 * get the field wraper classes
+	 * 
+	 * @return string classes for field wrapper
+	 */
+	protected function get_wrapper_class() {
+
+		// Start with the main class
+		$class = 'premise-field';
+
+		foreach( $this->field as $k => $v ) {
+			$class .= ! empty( $v ) ? ' premise-field-' . esc_attr( $k ) : '';
+		}
+
+		return $class;
+	}
+
+
+
+
+	/**
+	 * remove_filters
+	 *
+	 * After everything runs and we save our HTML for the field
+	 * unhook the filters and action hooks
+	 *
+	 * @since 1.2 removes filters to avoid repetition
+	 */
+	protected function remove_filters() {
+		foreach ( (array) $this->filters_used as $hook ) 
+			remove_all_filters( $hook );
 	}
 
 

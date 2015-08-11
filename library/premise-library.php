@@ -27,28 +27,57 @@ function premise_print( $var ) {
 /**
  * Premise Field
  *
- * display or return a form field. accepts array of arrays of arguments
+ * display or return a form field.
+ *
+ * @since 1.2 Parametters order changed, new parametter added:
+ *        Old params: (array) arguments, (boolean) echo
+ *        New params: (string) type, (array) arguments, (boolean) echo
  * 
- * @see class PremiseFormElements in premise-forms-class.php
- * 
+ * @see class PremiseField in premise-forms-class.php
+ *
+ * @param string $type  the type of field to print or return. i.e. text, textarea, checkbox, wp_media, video
  * @param  array  $args array of arguments to buid a field
  * @param boolean $echo true outputs the html on to the page. false returns it as a string
  * @return string         html markup for a form field
  */
 function premise_field( $type = 'text', $args = array(), $echo = true ) {
 
-	if ( ! empty( $type ) && is_string( $type ) )
-		$type = $type;
+	/**
+	 * Backward compatibility with version < 1.2
+	 *
+	 * Allows you to skipt the first param and pass it as part of args i.e. ( 'type' => 'text' )
+	 * 
+	 * @since 1.2 If the first param passed is an array, the function was called the old way. Fix it.
+	 */
+	if ( is_array( $type ) ) {
+		$args = $type;
+		premise_field_deprecated( $args, $echo );
+	}
 
-	$html = '';
+	$type  = ! empty( $type ) && is_string( $type ) ? $type : 'text';
+	$field = new PremiseField( $type, $args );
+	$html  = $field->get_field();
+
+	if( !$echo )
+		return $html;
+	else
+		echo $html;
+}
+
+
+
+
+
+function premise_field_deprecated( $args = array(), $echo = true ) {
 
 	if( array_key_exists( 'options', $args ) || (count($args) == count($args, COUNT_RECURSIVE) ) ) {
-		$field = new PremiseField( $type, $args );
+		$field = new PremiseField_Deprecated( $args );
 		$html .= $field->get_field();
+		var_dump($html);
 	}
 	else{
 		foreach ( $args as $arg ) {
-			$field = new PremiseField( $type, $arg );
+			$field = new PremiseField_Deprecated( $arg );
 			$html .= $field->get_field();
 		}
 	}
@@ -57,7 +86,6 @@ function premise_field( $type = 'text', $args = array(), $echo = true ) {
 		return $html;
 	else
 		echo $html;
-	
 }
 
 

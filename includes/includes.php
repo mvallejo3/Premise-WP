@@ -5,8 +5,17 @@
  * @subpackage Includes
  */
 
-//library
+/**
+ * Libraries
+ */
 include_once( PREMISE_PATH . 'library/premise-library.php' );
-include_once( PREMISE_PATH . 'classes/premise-forms-class.php' );
+
+
+
+/**
+ * Classes
+ */
+include_once( PREMISE_PATH . 'classes/premise-field-class.php' );
+include_once( PREMISE_PATH . 'classes/premise-field-deprecated-class.php' );
 include_once( PREMISE_PATH . 'classes/premise-custom-post-type-class.php' );
 include_once( PREMISE_PATH . 'classes/premise-one-page-nav-class.php' );

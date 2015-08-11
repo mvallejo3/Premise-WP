@@ -1,12 +1,44 @@
 
 # Premise WP Framework  
 
+Premise WP description goes here..  
+
+-----------------------------------
+
+## PremiseField Class
+
+The `PremiseField` class makes it very easy to insert form fields into your project. Calling the functions `premise_field()` and `premise_field_section()` is the easiest way to take advantage of this functionlity. 
+Here are some examples on how to use this class.
+
+```php
 
 
-Premise is a Wordpress Framework built to help developers write faster Themes and Plugins that are fully custom.
 
+```
 
-Here are some of the most commonly used functionality that Premise offers. You can read the full documentation [here](#).
+```php
+
+$defaults = array(
+	/**
+	 * Special Parameters
+	 */
+	'label'      => '',      // Wraps label element around field. uses id for for attribute if id not empty
+	'tooltip'    => '',      // Adds a tooltip and tooltip functionality to field
+	'add_filter' => '',      // Add a filter to this field. Read documentation for list of filters
+	'template'   => '',      // May not be needed after filters. add classes to outer html to control styling.
+	/**
+	 * Normal Parameters
+	 */
+	'name'       => '',      // name attribute. if empty fills from id
+	'id'         => '',      // id attribute. is empty fills from name
+	'value'      => '',      // value attribute. by default tries to get_option(name)
+	'value_att'  => '',      // value attribute. Used for checkboxes and radio
+	'default'    => '',      // if value is empty and get_option() return false
+	'options'    => array(), // options for select fields in this format ( Text => Value )
+	'attribute'  => '',      // html attributes to add to element i.e. onchange="doSomethingCool()"
+);
+
+```
 
 
 ## CSS Framework  
