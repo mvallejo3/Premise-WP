@@ -221,9 +221,6 @@ class Premise_WP_FW_Class {
 
 			wp_enqueue_script( 'msdropdown_js' );
 			wp_enqueue_style( 'msdropdown_css' );
-
-			wp_register_style( 'premise_admin_style_css'   , PREMISE_URL . 'css/premise_admin.css' );
-			wp_enqueue_style( 'premise_admin_style_css' );
 		}
 
 		wp_enqueue_style( 'premise_style_css' );
