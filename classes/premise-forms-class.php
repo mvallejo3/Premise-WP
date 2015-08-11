@@ -470,9 +470,7 @@ class PremiseField {
 
 		$field  = '<input type="'. $this->type .'"';
 
-		foreach ( $this->field as $k => $v ) {
-			$field .= $this->gen_input_atts( $k, $v );
-		}
+		$field .= $this->get_atts();
 		
 		$field .= '>';
 
@@ -502,9 +500,7 @@ class PremiseField {
 		
 		$field = '<textarea';
 
-		foreach ( $this->field as $k => $v ) {
-			$field .= ( ! empty( $v ) && 'value' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
-		}
+		$fied .= $this->get_atts();
 
 		$field .= '>'.$this->field['value'].'</textarea>';
 
@@ -532,13 +528,7 @@ class PremiseField {
 		
 		$field  = '<input type="'. $this->type .'"';
 		
-		foreach ( $this->field as $k => $v ) {
-			if ( 'value_att' == $k && ! empty( $v ) ) {
-				$field .= checked( $this->field['value'], $v, false );
-				continue;
-			}
-			$field .= $this->gen_input_atts( $k, $v );
-		}
+		$field .= $this->get_atts();
 
 		/**
 		 * Close the field
@@ -569,13 +559,7 @@ class PremiseField {
 		
 		$field  .= '<input type="'.$this->type.'"';
 		
-		foreach ( $this->field as $k => $v ) {
-			if ( 'value_att' == $k && ! empty( $v ) ) {
-				$field .= checked( $this->field['value'], $v, false );
-				continue;
-			}
-			$field .= $this->gen_input_atts( $k, $v );
-		}
+		$field .= $this->get_atts();
 
 		/**
 		 * Close the field
@@ -604,9 +588,7 @@ class PremiseField {
 		
 		$field  = '<select';
 
-		foreach ( $this->field as $k => $v ) {
-			$field .= ( ! empty( $v ) && 'value' !== $k && 'options' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
-		}
+		$field .= $this->get_atts();
 
 		$field .= '>' . $this->select_options() . '</select>';
 
@@ -972,8 +954,43 @@ class PremiseField {
 	 * @param  string $v attribute value
 	 * @return string    string of attributes
 	 */
-	protected function gen_input_atts( $k, $v ) {
-		return ( ! empty( $v ) && 'label' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
+	protected function get_atts() {
+
+		$field = '';
+
+		switch( $this->type ) {
+
+			case 'select':
+				foreach ( $this->field as $k => $v ) {
+					$field .= ( ! empty( $v ) && 'value' !== $k && 'options' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
+				}
+			break;
+
+			case 'radio':
+			case 'cehckbox':
+				foreach ( $this->field as $k => $v ) {
+					if ( 'value_att' == $k && ! empty( $v ) ) {
+						$field .= checked( $this->field['value'], $v, false );
+						continue;
+					}
+					$field .= ( ! empty( $v ) && 'label' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
+				}
+			break;
+
+			case 'textarea':
+				foreach ( $this->field as $k => $v ) {
+					$field .= ( ! empty( $v ) && 'value' !== $k && 'label' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
+				}
+			break;
+
+			default :
+				foreach ( $this->field as $k => $v ) {
+					$field .= ( ! empty( $v ) && 'label' !== $k ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
+				}
+			break;
+		}
+		
+		return $field;
 	}
 
 
