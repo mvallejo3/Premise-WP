@@ -75,17 +75,8 @@ Premise WP also has some special types of fields built into it. So far, these ty
 * `fa_icon`: Create Icon field (lets users choose/insert an icon) that utilizes Font Awesome icon library
 * `video`: Create an embed video field
 
-
-## PremiseField Class
-
-The `PremiseField` class makes it very easy to insert form fields into your project. Calling the functions `premise_field()` and `premise_field_section()` is the easiest way to take advantage of this functionlity. 
-Here are some examples on how to use this class.
-
-```php
-
-
-
-```
+You can add a lot more to a field than just attributes. Simply by including some arguments as part of our second param array can add things like a tooltip or a label. Here is a list of arguments
+that you can pass and what each does.
 
 ```php
 
@@ -101,7 +92,7 @@ $defaults = array(
 	 * Normal Parameters
 	 */
 	'name'       => '',      // name attribute. if empty fills from id
-	'id'         => '',      // id attribute. is empty fills from name
+	'id'         => '',      // id attribute. if empty fills from name
 	'value'      => '',      // value attribute. by default tries to get_option(name)
 	'value_att'  => '',      // value attribute. Used for checkboxes and radio
 	'default'    => '',      // if value is empty and get_option() return false
