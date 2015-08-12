@@ -1,14 +1,10 @@
 
 # Premise WP Framework  
 
-Premise WP was built by developers for developers. At VallGroup, we build themes and plugins for our clients and the public
-all the time. We developed Premise to help expedite our own process of how we build plugins and themes. Then we decided to 
-share it with anyonew who's interested.
+Premise WP was built for developers who build themes and plugins for Wordpress. Create theme options, write responsive markup, and add UX functionality quickly and easily.
 
-## Start Using Premise WP
-
-Premise is easy to use. Simply download Premise WP and copy the folder `Premise-WP` into your project. To make sure that 
-there are no conflicts with any other projects using Premise WP ALWAYS make sure to include it in your project this way..   
+Premise is easy to use. Simply download Premise WP and copy the folder `Premise-WP` into your project. To make sure that there are no conflicts with any other projects using 
+Premise WP ALWAYS make sure to include it in your project this way..   
 
 ```php
 
@@ -17,18 +13,55 @@ there are no conflicts with any other projects using Premise WP ALWAYS make sure
  * only if it does not exist already
  *
  * This prevents any other plugins already running Premise WP code
- * from creating conflicts. You should always use the most current version
- * Premise WP.
+ * from creating conflicts. 
  *
  * We use the class Premise_WP_FW_Class because it is the first class called
  * by Premise WP. 
  *
  * ALWAYS include Premise WP in your projects this way
  *
- * Note: We are calling this as our first line of code on our functions.php file
+ * Note: This should be the first line of code on your theme's functions.php file or your plugin's main file. 
+ *       You should always use the most current version Premise WP.
  */
 if ( ! class_exists( 'Premise_WP_FW_Class' ) )
 	require( 'Premise-WP/premise.php' );
+
+```  
+
+## Creating Options with Premise WP
+
+The `premise_field()` function lets you create form fields by simply passing some parameters to it. The first param it takes is a string with the `type` of field you want to create. If you want to 
+create a text field, you simply pass the string `text` to the function.
+
+```php
+
+/**
+ * Print a text field
+ */
+premise_field( 'text' );
+
+/**
+ * The code above prints the following field
+ */
+<input type="text">
+
+```
+
+To add more attributes to our field, we pass the attributes that we want to add in an array as our second param. Here is how we would add a `name` attribute to our field.
+
+```php
+
+/**
+ * Print a text field with name attribute
+ * 
+ * The second param is an array
+ */
+premise_field( 'text', array( 'name' => 'my_field_name' ) );
+
+/**
+ * The code above prints the following field
+ */
+<input type="text" name="my_field_name">
 
 ```
 
