@@ -33,6 +33,35 @@ if ( ! class_exists( 'Premise_WP_FW_Class' ) )
 
 -----------------------------------
 
+
+
+## Common Uses  
+
+Here are some examples of the most common functionality that Premise WP offers. For the full documentation visit 
+[Premise WP Documentation](http://premise.vallgroup.com).  
+
+```php
+
+/*
+	
+	One of the most common uses of Premise WP is the PremiseField Class. This class allows us to create fields very quickly
+	with tons of flexibility and filters to really control EVERYTHING.
+
+ */
+
+/**
+ * premise_field()
+ * 
+ * Creates forms fields by passing the bare minimum parameters or information.
+ * 
+ * @param  string  $type The type of field to build. Default text
+ * @param  array   $args The arguments to build field
+ * @param  boolean $echo whether to echo or return string
+ * @return string        html for field
+ */
+
+```
+
 ## PremiseField Class
 
 The `PremiseField` class makes it very easy to insert form fields into your project. Calling the functions `premise_field()` and `premise_field_section()` is the easiest way to take advantage of this functionlity. 
