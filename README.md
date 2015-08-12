@@ -5,9 +5,10 @@ Premise WP was built by developers for developers. At VallGroup, we build themes
 all the time. We developed Premise to help expedite our own process of how we build plugins and themes. Then we decided to 
 share it with anyonew who's interested.
 
+## Start Using Premise WP
+
 Premise is easy to use. Simply download Premise WP and copy the folder `Premise-WP` into your project. To make sure that 
-there are no conflicts with any other projects using Premise WP ALWAYS make sure to include the main Premise file 
-(`premise.php`) this way..   
+there are no conflicts with any other projects using Premise WP ALWAYS make sure to include it in your project this way..   
 
 ```php
 
@@ -31,36 +32,6 @@ if ( ! class_exists( 'Premise_WP_FW_Class' ) )
 
 ```
 
------------------------------------
-
-
-
-## Common Uses  
-
-Here are some examples of the most common functionality that Premise WP offers. For the full documentation visit 
-[Premise WP Documentation](http://premise.vallgroup.com).  
-
-```php
-
-/*
-	
-	One of the most common uses of Premise WP is the PremiseField Class. This class allows us to create fields very quickly
-	with tons of flexibility and filters to really control EVERYTHING.
-
- */
-
-/**
- * premise_field()
- * 
- * Creates forms fields by passing the bare minimum parameters or information.
- * 
- * @param  string  $type The type of field to build. Default text
- * @param  array   $args The arguments to build field
- * @param  boolean $echo whether to echo or return string
- * @return string        html for field
- */
-
-```
 
 ## PremiseField Class
 
