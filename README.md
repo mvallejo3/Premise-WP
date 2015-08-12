@@ -66,9 +66,12 @@ premise_field( 'text', array( 'name' => 'my_field_name' ) );
 ```
 
 You can create any field you want by simply passing the type of field as your first parameter. If you call `premise_field( 'textarea' )` it would create a textarea field. The same goes for 
-`premise_field( 'select' )` or `premise_field( 'email' )`. Notice that for `input` fields you only pass the type of field, where as for `select` or `textarea` fields you have to pass the tag name. 
+`premise_field( 'select' )` or `premise_field( 'email' )`. 
+
+Notice that for `input` fields you only pass the type of field, where as for `select` or `textarea` fields you have to pass the tag name. 
+
 Premise WP also has some special types of fields built into it. So far, these types of fields include `wp_media`, `fa_icon`, and `video`. Here is what these special types of fields do:
-* `wp_media`: Create a 'Fiel Upload' field that utilizes Wordpress Media Uploader 
+* `wp_media`: Create a 'File Upload' field that utilizes Wordpress Media Uploader 
 * `fa_icon`: Create Icon field (lets users choose/insert an icon) that utilizes Font Awesome icon library
 * `video`: Create an embed video field
 
