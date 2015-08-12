@@ -30,7 +30,7 @@ if ( ! class_exists( 'Premise_WP_FW_Class' ) )
 
 ## Creating Options with Premise WP
 
-The `premise_field()` function lets you create form fields by simply passing some parameters to it. The first param it takes is a string with the `type` of field you want to create. If you want to 
+The `premise_field()` function lets you create form fields by simply passing some parameters to it. The first param it takes is a string with the type of field you want to create. If you want to 
 create a text field, you simply pass the string `text` to the function.
 
 ```php
@@ -64,6 +64,13 @@ premise_field( 'text', array( 'name' => 'my_field_name' ) );
 <input type="text" name="my_field_name">
 
 ```
+
+You can create any field you want by simply passing the type of field as your first parameter. If you call `premise_field( 'textarea' )` it would create a textarea field. The same goes for 
+`premise_field( 'select' )` or `premise_field( 'email' )`. Notice that for `input` fields you only pass the type of field, where as for `select` or `textarea` fields you have to pass the tag name. 
+Premise WP also has some special types of fields built into it. So far, these types of fields include `wp_media`, `fa_icon`, and `video`. Here is what these special types of fields do:
+* `wp_media`: Create a 'Fiel Upload' field that utilizes Wordpress Media Uploader 
+* `fa_icon`: Create Icon field (lets users choose/insert an icon) that utilizes Font Awesome icon library
+* `video`: Create an embed video field
 
 
 ## PremiseField Class
