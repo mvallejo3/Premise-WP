@@ -1,7 +1,9 @@
 
 # Premise WP Framework  
 
-Premise WP description goes here..  
+Premise WP was built by developers for developers. At VallGroup, we build themes and plugins for our clients and the public
+all the time. We developed Premise to help expedite our own process of how we build plugins and themes. Then we decided to 
+share it with anyonew who's interested.
 
 -----------------------------------
 

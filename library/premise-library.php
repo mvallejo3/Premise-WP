@@ -68,6 +68,17 @@ function premise_field( $type = 'text', $args = array(), $echo = true ) {
 
 
 
+/**
+ * Old premise field
+ *
+ * @since 1.2 Used to be premise_field() but whole class got replaced. offered for backward compatibility.
+ *
+ * @deprecated 1.2 Replaced with premise_field()
+ * 
+ * @param  array   $args array of array for aguments to build field
+ * @param  boolean $echo wheteher to putput the field or return as string
+ * @return string        html for string. echoed or returned
+ */
 function premise_field_deprecated( $args = array(), $echo = true ) {
 
 	if( array_key_exists( 'options', $args ) || (count($args) == count($args, COUNT_RECURSIVE) ) ) {
