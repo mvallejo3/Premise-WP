@@ -5,6 +5,32 @@ Premise WP was built by developers for developers. At VallGroup, we build themes
 all the time. We developed Premise to help expedite our own process of how we build plugins and themes. Then we decided to 
 share it with anyonew who's interested.
 
+Premise is easy to use. Simply download Premise WP and copy the folder `Premise-WP` into your project. To make sure that 
+there are no conflicts with any other projects using Premise WP ALWAYS make sure to include the main Premise file 
+(`premise.php`) this way..   
+
+```php
+
+/**
+ * Load Premise WP Framework 
+ * only if it does not exist already
+ *
+ * This prevents any other plugins already running Premise WP code
+ * from creating conflicts. You should always use the most current version
+ * Premise WP.
+ *
+ * We use the class Premise_WP_FW_Class because it is the first class called
+ * by Premise WP. 
+ *
+ * ALWAYS include Premise WP in your projects this way
+ *
+ * Note: We are calling this as our first line of code on our functions.php file
+ */
+if ( ! class_exists( 'Premise_WP_FW_Class' ) )
+	require( 'Premise-WP/premise.php' );
+
+```
+
 -----------------------------------
 
 ## PremiseField Class
