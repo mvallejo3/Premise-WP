@@ -84,7 +84,6 @@ function premise_field_deprecated( $args = array(), $echo = true ) {
 	if( array_key_exists( 'options', $args ) || (count($args) == count($args, COUNT_RECURSIVE) ) ) {
 		$field = new PremiseField_Deprecated( $args );
 		$html .= $field->get_field();
-		var_dump($html);
 	}
 	else{
 		foreach ( $args as $arg ) {

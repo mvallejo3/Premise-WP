@@ -18,10 +18,11 @@
 
 
 
-define( 'PREMISE_URL', plugin_dir_url(__FILE__) );
+define( 'PREMISE_URL', dirname(__FILE__) );
 define( 'PREMISE_PATH', plugin_dir_path(__FILE__) );
 
-
+var_dump(PREMISE_URL);
+var_dump(PREMISE_PATH);
 
 /**
  * Intantiate and setup Premise

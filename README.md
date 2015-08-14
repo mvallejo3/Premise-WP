@@ -350,4 +350,12 @@ Hook                               | Type         | Description                 
 `premiseFieldAfterFaIconsOpen`     | Trigger      | do hook after icons box opens           |
 `premiseFieldAfterFaIconsClose`    | Trigger      | do hook after icons close               |
 
-===
+===  
+
+## Changelog  
+
+#### 1.2  
+* Updated `PremiseField` class. Made it simpler to create fields, added filters, added `video` field.
+* Changed arameters for `premise_field()`. This function now takes a string as first param which makes it possible to create a field simpler e.g. `premise_field( 'text' )`.
+* Added prefix `premise-` to all classes of Premise WP CSS Framework. Divided CSS into sectins each in its own file.
+* Started moving Premise WP JS into objects. Still a lot of work left here.
