@@ -71,6 +71,8 @@
 	display: block;
 	width: 100%;
 	padding: 5px;
+	line-height: 115%;
+	font-size: 14px;
 }
 
 /**
@@ -186,6 +188,10 @@
  *
  * Only for select field that are not multiple
  */
+.premise-field .premise-field-select select {
+	height: auto;
+}
+
 .premise-field:not(.premise-field-multiple) > .premise-field-select:after {
 	position: absolute;
 	top:  5px;

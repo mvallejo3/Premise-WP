@@ -134,10 +134,19 @@ class Premise_WP_FW_Class {
 
 
 		
+
 		/**
 		 * Add classes to body
 		 */
 		add_filter( 'body_class', array( $this, 'body_class' ) );
+
+
+
+
+		/**
+		 * Add classes to body
+		 */
+		add_filter( 'admin_body_class', array( $this, 'body_class' ) );
 	}
 
 
@@ -197,9 +206,11 @@ class Premise_WP_FW_Class {
 	 * @return string          classes output into body element
 	 */
 	public function body_class( $classes ) {
-		// add 'class-name' to the $classes array
-		$classes[] = 'premise-wp-framewrok premise';
-		// return the $classes array
+		if ( is_admin() )
+			return $classes . 'premise-wp-framewrok Premise-WP';
+		
+		$classes[] = 'premise-wp-framewrok';
+		$classes[] = 'Premise-WP';
 		return $classes;
 	}
 
