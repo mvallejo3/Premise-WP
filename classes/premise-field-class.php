@@ -662,14 +662,14 @@ class PremiseField {
 
 		if( is_array( $this->field['value'] ) ) {
 
-			foreach ( $this->field['options'] as $key => $value ) {
+			foreach ( (array) $this->field['options'] as $key => $value ) {
 				$options .= '<option  value="'.$value.'"';
 				$options .= (is_array( $this->field['value'] ) && in_array( $value, $this->field['value'] ) ) ? 'selected="selected"' : '';
 				$options .= '>'.$key.'</option>';
 			}
 		}
 		else { 
-			foreach ($this->field['options'] as $key => $value) {
+			foreach ( (array) $this->field['options'] as $key => $value) {
 				$options .= '<option  value="'.$value.'"';
 				$options .= selected( $this->field['value'], $value, false );
 				$options .= '>'.$key.'</option>';
