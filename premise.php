@@ -17,12 +17,22 @@
  */
 
 
-
-define( 'PREMISE_URL', dirname(__FILE__) );
 define( 'PREMISE_PATH', plugin_dir_path(__FILE__) );
 
-var_dump(PREMISE_URL);
-var_dump(PREMISE_PATH);
+/**
+ * Define our PREMISE_URL constant
+ *
+ * Check whether Premise WP is being used from a theme or a plugin
+ * then, set the right URL accordingly. Makes sure everything is loaded properly
+ *
+ * @since 1.2 
+ */
+if ( '' !== locate_template('Premise-WP/premise.php') ) 
+	define( 'PREMISE_URL', get_stylesheet_directory_uri() . '/Premise-WP/' );
+else 
+	define( 'PREMISE_URL', plugin_dir_url(__FILE__) );
+
+
 
 /**
  * Intantiate and setup Premise
@@ -58,7 +68,7 @@ class Premise_WP_FW_Class {
 	 * 
 	 * @var string
 	 */
-	public $plugin_url = PREMISE_URL;
+	public $plugin_url = '';
 
 
 
