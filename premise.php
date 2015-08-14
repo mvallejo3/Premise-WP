@@ -18,8 +18,8 @@
 
 
 
-define( 'PREMISE_URL', get_template_directory_uri() . '/Premise-WP/' );
-define( 'PREMISE_PATH', get_stylesheet_directory() . '/Premise-WP/' );
+define( 'PREMISE_URL', plugin_dir_url(__FILE__) );
+define( 'PREMISE_PATH', plugin_dir_path(__FILE__) );
 
 
 
