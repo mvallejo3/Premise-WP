@@ -44,7 +44,7 @@ class PremiseField {
 		'label'      => '',      // Wraps label element around field. uses id for for attribute if id not empty
 		'tooltip'    => '',      // Adds a tooltip and tooltip functionality to field
 		'add_filter' => '',      // Add a filter to this field. Read documentation for list of filters
-		'template'   => '',      // May not be needed after filters. add classes to outer html to control styling.
+		'context'    => '',      // Used to let Premise know where to retrieve values from ( post, user )
 		/**
 		 * Normal Parameters
 		 */
@@ -118,7 +118,7 @@ class PremiseField {
 	protected $btn_upload_file = '<a 
 		class="premise-btn-upload" 
 		href="javascript:void(0);" 
-		onclick="premiseUploadFile(this)"
+		onclick="PremiseField.WPMedia.init(this)"
 		><i class="fa fa-fw fa-upload"></i></a>';
 
 
@@ -260,9 +260,9 @@ class PremiseField {
 		 *
 		 * Get the name field first since it is needed for the value field to be retreived.
 		 */
-		$field['name']  = ! empty( $field['name'] )  ? esc_attr( $field['name'] ) : $this->get_name( $field['id'] );
-		$field['value'] = ! empty( $field['value'] ) ? $field['value']            : $this->get_db_value( $field['name'] );
-		$field['id']    = ! empty( $field['id'] )    ? esc_attr( $field['id'] )   : $this->get_id_att( $field['name'] );
+		$field['name']  = $this->get_name();
+		$field['value'] = $this->get_db_value();
+		$field['id']    = $this->get_id_att();
 
 		/**
 		 * assign common attributes
@@ -902,39 +902,16 @@ class PremiseField {
 	 * @param  string $name name attribute to know what option to look for
 	 * @return mixed       returns the value found or an empty string if nothing was found
 	 */
-	protected function get_db_value( $name ) {
-
+	protected function get_db_value() {
+		
+		$name = ! empty( $this->args['name'] ) ? $this->args['name'] : $this->get_name();
+		
 		if ( empty( $name ) )
 			return '';
 
-		/**
-		 * If values are stored in an array
-		 */
-		if ( preg_match( '/\[|\]/', $name ) ) {
+		$context = ! empty( $this->args['context'] ) ? $this->args['context'] : '';
 
-			/**
-			 * Turn html att name into an array of keys
-			 *
-			 * This will help us get the options from the database
-			 *
-			 * @var array
-			 */
-			$keys = str_replace( ']', '', $name );
-			$keys = explode( '[', $keys );
-
-			/**
-			 * Set the DB option name and unset it from the keys array
-			 *
-			 * @var string
-			 */
-			$option = $keys[0];
-			unset( $keys[0] );
-
-			$val = premise_get_option( $option, $keys );
-		}
-		else {
-			$val = $this->get_value_by_context(); //get_option( $name );
-		}
+		$val = premise_get_option( $name, $context );
 
 		if ( $val ) 
 			return esc_attr( $val );
@@ -957,13 +934,12 @@ class PremiseField {
 	 * 
 	 * @return mixed value found
 	 */
-	protected function get_value_by_context() {
+	protected function get_value_by_context( $name ) {
 		$context = $this->args['context'];
-		
+
 		switch( $context ) {
 			case 'post':
-				global $post;
-				return get_post_meta( $post->ID, $this->args['name'], true );
+				$value = premise_get_option( $name, 'post' );
 			break;
 
 			default :
@@ -983,27 +959,36 @@ class PremiseField {
 	 * @param  string $name string to get id from
 	 * @return string       filtered string for id
 	 */
-	protected function get_id_att( $name ) {
-		
-		/**
-		 * If values are stored in an array
-		 */
-		if ( preg_match( '/\[|\]/', $name ) ) {
+	protected function get_id_att() {
+		$id_att = '';
 
+		if ( ! empty( $this->args['id'] ) ) {
+			$id_att = $this->args['id'];
+		}
+
+		elseif ( ! empty( $this->args['name'] ) ) {
+			$name = $this->args['name'];
+			
 			/**
-			 * Turn html att name into an array of keys
-			 *
-			 * This will help us get the options from the database
-			 *
-			 * @var array
+			 * If values are stored in an array
 			 */
-			$id_att = preg_replace( array('/\[/', '/\]/'), array('-', ''), $name );
+			if ( preg_match( '/\[|\]/', $name ) ) {
 
-			return esc_attr( $id_att );
+				/**
+				 * Turn html att name into an array of keys
+				 *
+				 * This will help us get the options from the database
+				 *
+				 * @var array
+				 */
+				$id_att = preg_replace( array('/\[/', '/\]/'), array('-', ''), $name );
+			}
+			else {
+				$id_att = $name;
+			}
 		}
-		else {
-			return esc_attr( $name );
-		}
+
+		return $this->args['id'] = esc_attr( $id_att );
 	}
 
 
@@ -1017,10 +1002,21 @@ class PremiseField {
 	 * @param  string $label string to get name attribute from
 	 * @return string        filtered string for name
 	 */
-	protected function get_name( $label ) {
-		$label = str_replace(' ', '-', strtolower($label));
-		$label = preg_replace('/[^-_a-z0-9]/', '', $label);
-		return esc_attr( $label );
+	protected function get_name() {
+		$name = '';
+
+		if ( ! empty( $this->args['name'] ) ) {
+			$name = $this->args['name'];
+		}
+
+		elseif ( ! empty( $this->args['id'] ) ) {
+			$name = $this->args['id'];
+			$name = preg_replace('/[^-_a-z0-9]/', '', $name);
+		}
+
+		$name = ( isset( $this->args['multiple'] ) && $this->args['multiple'] ) && ! preg_match('/\[\]$/', $this->args['name'] ) ? $name . '[]' : $name;
+
+		return $this->args['name'] = esc_attr( $name );
 	}
 
 
@@ -1054,7 +1050,8 @@ class PremiseField {
 		unset( $_field['default'] );
 		unset( $_field['options'] );
 		unset( $_field['value_att'] );
-		unset( $_field['attribute'] ); 
+		unset( $_field['attribute'] );
+		unset( $_field['context'] ); 
 
 		foreach ( $_field as $k => $v ) {
 			$field .= ! empty( $v ) ? ' '.esc_attr( $k ).'="'.esc_attr( $v ).'"' : '';
