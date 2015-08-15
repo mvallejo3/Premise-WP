@@ -9,6 +9,7 @@
  * Libraries
  */
 include_once( PREMISE_PATH . 'library/premise-library.php' );
+include_once( PREMISE_PATH . 'library/premise-field-library.php' );
 
 
 

@@ -136,13 +136,138 @@ function premise_field_section( $args = array(), $echo = true ) {
 
 
 /**
- * A more flexible option to the default WP get_option()
+ * premise_get_option()
  *
+ * This function allows you to retrieve options saved in the Wordpress database whether they 
+ * were saved within a post or a user profile or in the wp_options table. You can also retreive
+ * options that were saved in an array e.g. 'name="option[array1][array2]' by simply passing the 
+ * name like it is on the field i.e. premise_get_option( 'option[array1][array2]' ). This will 
+ * return the value of array2.
+ *
+ * By passing a context param, you can tell the function where to look for the option. So if 
+ * we pass the context 'post', the function will look for the value using Wordpress' built in
+ * get_post_meta(), instead of get_option(). At the same time if you pass the context 'user'
+ * the function will use get_user_meta() to retreive the data you are looking for.
+ * 
+ * NOTE: The context param can be an array containing the post or user id and the single param.
+ * Here is an example:
+ * 
+ * premise_get_option( 'option[array1][array2]', array(
+ * 	   'context'   => 'post',
+ *     'id'     => '78',
+ *     'single' => false
+ * ) );
+ * 
+ * @see https://developer.wordpress.org/reference/functions/get_post_meta/ single param is the last param this function takes
+ * @see https://developer.wordpress.org/reference/functions/get_user_meta/ single param is the last param this function takes
+ *
+ * @since 1.2 made it possible to search within posts and users as well as regilar options
+ *        This function was created as a helper for the PremiseField class.
+ *
+ * @param  string $name    name attribute for the field
+ * @param  mixed $context  string with context. or array with context, id, and single params.
+ * @return mixed           Returns the value of the option, or false if nothing was found
+ */
+function premise_get_option( $name = '', $context = '' ) {
+
+	$value = ''; // Start with a clean value
+
+	$_name = premise_name_att_to_array( $name );
+	
+	switch ( $context ) {
+
+		case 'post':
+			$value = premise_get_post_meta( $id, $_name[0] );
+			break;
+
+		case 'user':
+			$value = premise_get_user_meta( $id, $_name[0] );
+			break;
+
+		default :
+			$value = get_option( $_name[0] );
+			break;
+	}
+
+	/**
+	 * If the second value is not empty it means
+	 * we have a multilevel value to retrieve.
+	 */
+	if ( ! empty( $_name[1] ) && is_array( $value ) ) {
+		// Build our levels of the array
+		// $keys = implode( '\'][\'', $_name[1] );
+
+		foreach ( $_name[1] as $k => $v ) {
+ 
+			if ( array_key_exists( $v, (array) $value ) ) {
+				$value = $value[$v];
+			} else {
+				// like get_option, return FALSE if no value
+				$value = false;
+			}
+		}
+	}
+
+	/**
+	 * if value is still in array but with only one value
+	 */
+	if ( is_array( $value ) && ( 1 == count( $value ) ) )
+		$value = $value[0];
+
+	return ! empty( $value ) ? $value : false;
+}
+
+
+
+
+
+function premise_get_post_meta( $post_id = '', $name = '', $single = true ) {
+	
+	if ( empty( $post_id ) ) {
+		global $post;
+		$post_id = $post->ID;
+	}
+
+	/**
+	 * Get the results from the database
+	 * 
+	 * @var mixed
+	 */
+	return get_post_meta( $post_id, $name, $single );
+}
+
+
+
+
+
+function premise_get_user_meta( $user_id = '', $name = '', $single = true ) {
+	
+	if ( empty( $user_id ) ) {
+		global $user;
+		$user_id = $user->ID;
+	}
+
+	/**
+	 * Get the results from the database
+	 * 
+	 * @var mixed
+	 */
+	return get_user_meta( $user_id, $name, $single );
+}
+
+
+
+
+/**
+ * [premise_get_option_deprecated description]
+ *
+ * @deprecated 1.2
+ * 
  * @param  string $option_keys [description]
  * @param  string $key         [description]
- * @return mixed               Returns the value of the key within the array of options searched for
+ * @return [type]              [description]
  */
-function premise_get_option( $option_keys = '', $key = '' ) {
+function premise_get_option_deprecated( $option_keys = '', $key = '' ) {
 	if ( empty( $option_keys ) ) 
 		return false;
 

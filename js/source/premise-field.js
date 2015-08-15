@@ -195,3 +195,174 @@ var PremiseField = {
 		jQuery('body').trigger('click');
 	}
 }
+
+
+
+/**
+ * PremiseField WPMedia Object
+ */
+PremiseField.WPMedia = {
+
+	/**
+	 * holds wp.media object
+	 * 
+	 * @type {object}
+	 */
+	uploader: null,
+
+
+	/**
+	 * Whether to allow multiple files to be uploaded or not
+	 * 
+	 * @type {boolean}
+	 */
+	isMulti: false,
+
+	
+	/**
+	 * the media that has been selected or uploaded
+	 * 
+	 * @type {Array}
+	 */
+	mediaUploaded: [],
+
+
+	/**
+	 * holds array of media that was laready saved
+	 * to avoid overriding previous uploads
+	 * 
+	 * @type {Array}
+	 */
+	mediaSaved: [],
+
+
+
+	/**
+	 * construct our object
+	 */
+	init: function(el) {
+
+		this.mediaField = jQuery(el).parent('.premise-field-wp_media').find('input.premise-file-url');
+
+		this.isMulti = this.mediaField.attr('multiple') ? true : false;
+
+		this.bindEvents();
+
+		this.upload();
+	},
+
+
+	/**
+	 * bind events needed for media uploader to work
+	 */
+	bindEvents: function() {
+		
+	},
+
+
+	/**
+	 * upload media
+	 */
+	upload: function() {
+
+		// clear our media array
+		PremiseField.WPMedia.mediaUploaded = [];
+
+		// If the uploader object has already been created, open it
+	    if (PremiseField.WPMedia.uploader) {
+	        PremiseField.WPMedia.uploader.open();
+	        return;
+	    }
+
+	    // Extend the wp.media object
+	    PremiseField.WPMedia.uploader = wp.media.frames.file_frame = wp.media({
+	        title: 'Upload Media',
+	        button: {
+	            text: 'Insert Media'
+	        },
+	        multiple: PremiseField.WPMedia.isMulti
+	    });
+
+	    /**
+	     * Bind function for when files are inserted
+	     *
+	     * bind here and not in our bindEvents function because on our 
+	     * bindEvents function the uploader object has not been created yet.
+	     */
+	    PremiseField.WPMedia.onInsert();
+
+	    //Open the uploader dialog
+	    PremiseField.WPMedia.uploader.open();
+	},
+
+
+
+	/**
+	 * When user clicks insert media
+	 */
+	onInsert: function() {
+		PremiseField.WPMedia.uploader.on('select', function() {
+	        
+	        // get array of attachment objects
+	        attachment = PremiseField.WPMedia.uploader.state().get('selection').toJSON();
+	        
+	        // Loop through images selected and save them to our mediaUploaded var
+	        jQuery(attachment).each(function(i, v){
+	        	PremiseField.WPMedia.mediaUploaded.push(attachment[i].url);
+	        });
+	        
+	        // Update thumbnails
+	        // PremiseField.WPMedia.updateMediaThumbs();
+	        PremiseField.WPMedia.handleFiles();
+	    });
+	},
+
+
+
+
+	/**
+	 * handles files uploaded
+	 */
+	handleFiles: function() {
+		var $this = PremiseField.WPMedia;
+		console.log($this.mediaUploaded);
+		$this.mediaField.val($this.mediaUploaded);
+	},
+
+
+
+	/**
+	 * update media thumbs
+	 */
+	updateMediaThumbs: function() {
+		var div = jQuery('.spt-upload-stats-here');
+
+		for ( var i = 0; i < PremiseField.WPMedia.mediaUploaded.length; i++ ) {
+			var a = document.createElement('div');
+			a.setAttribute('class', 'spt-stat-item');
+			a.style.backgroundImage = 'url(' + PremiseField.WPMedia.mediaUploaded[i] + ')';
+			a.innerHTML = '<a href="javascript:;" class="spt-stat-item-delete"><i class="fa fa-close"></i></a>'+
+			'<input type="hidden" class="spt-hidden-field" name="spt_options[stats][]" value="'+PremiseField.WPMedia.mediaUploaded[i]+'">';
+			div.append(a);
+		}
+	},
+
+
+
+	/**
+	 * Remove media from uploaded or selected media
+	 */
+	removeMedia: function() {
+		jQuery(this).parent().remove();
+	}
+}
+
+
+
+
+
+
+
+
+
+
