@@ -1,15 +1,14 @@
 <?php
 /**
- * PremiseField Class
+ * Premise Forms Class
  *
- * Create form fields by instantiating this class and passing some parameters. 
- * Each field will be an instance of this class.
+ * This class allows us to easily build form elements using parameters within a PHP Array.
  *
- * @see library/premise-field-library.php For functions that utilize this class
- *
- * @package Premise WP
- * @subpackage Model
+ * @package Premise
+ * @subpackage Forms Class
  */
+
+
 class PremiseField {
 
 
@@ -315,7 +314,7 @@ class PremiseField {
 
 
 	/**
-	 * Add filters to a field
+	 * Add filters first
 	 *
 	 * This has to run first to make sure that our filters get hooked before they are called
 	 * Unsets the filter argument at the end to avoid conflicts when printing attributes on field
@@ -904,7 +903,7 @@ class PremiseField {
 	 * @return mixed       returns the value found or an empty string if nothing was found
 	 */
 	protected function get_db_value() {
-		
+
 		if ( ! empty( $this->args['value'] ) ) {
 			$val = $this->args['value'];
 		}

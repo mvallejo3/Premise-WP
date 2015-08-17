@@ -87,6 +87,16 @@ module.exports = function(grunt) {
 				dest: 'includes/deprecated/deprecated.php',
 			},
 		},
+
+		phpdocumentor: {
+	        dist: {
+	            options: {
+	                directory : './',
+	                target : 'documentation/phpdoc',
+	                template: 'responsive-twig'
+	            }
+	        }
+	    },
 		
 	});
 
@@ -96,7 +106,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-concat');
-
+	// create PHP documentation
+	grunt.loadNpmTasks('grunt-phpdocumentor');
 	// Default task(s).
 	grunt.registerTask( 'default', ['watch'] );
 
