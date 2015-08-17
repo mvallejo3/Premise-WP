@@ -2,8 +2,8 @@
 /**
  * Premise Library
  *
- * @package Premise
- * @subpackage Premise Library
+ * @package Premise WP
+ * @subpackage Library
  */
 
 /**
@@ -42,9 +42,9 @@ function premise_print( $var ) {
  * Here is an example:
  * 
  * premise_get_option( 'option[array1][array2]', array(
- * 	   'context'   => 'post',
- *     'id'     => '78',
- *     'single' => false
+ * 	   'context' => 'post',
+ *     'id'      => '78',
+ *     'single'  => false
  * ) );
  * 
  * @see https://developer.wordpress.org/reference/functions/get_post_meta/ single param is the last param this function takes
@@ -224,7 +224,16 @@ function premise_get_option( $option = '', $key = '' ) {
 
 
 
-
+/**
+ * Premise name to array
+ *
+ * Converts the name attribute of a field into an array. 
+ *
+ * @since 1.2 
+ * 
+ * @param  string $name the name attribute of a field to convert to an array
+ * @return string       array with name attribute
+ */
 function premise_name_att_to_array( $name ) {
 
 	$name_a = array(); // Name array
@@ -257,7 +266,7 @@ function premise_name_att_to_array( $name ) {
 		 *
 		 * @var array $_keys[1] has strings of _keys for each level of the array
 		 *
-		 * @since 1.2 new RegExp that saves each level of array into array
+		 * @since 1.2 RegExp that saves each level of array into array
 		 *
 		 * @var array
 		 */

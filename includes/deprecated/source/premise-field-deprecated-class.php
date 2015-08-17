@@ -565,8 +565,8 @@ class PremiseField_Deprecated {
 	 */
 	protected function prepare_field() {
 
-		$this->label  = ! empty( $this->field['label'] )                                     ? '<label for  = "'.$this->field['id'].'">'.$this->field['label'].'</label>' : '';
-		$this->label .= ( ! empty( $this->field['label'] ) && ! empty( $this->field['tooltip'] ) ) ? '<span class = "tooltip"><i>'.$this->field['tooltip'].'</i></span>'  : '';
+		$this->label  = ! empty( $this->field['label'] )                                     ? '<label for="'.$this->field['id'].'">'.$this->field['label'].'</label>' : '';
+		$this->label .= ( ! empty( $this->field['label'] ) && ! empty( $this->field['tooltip'] ) ) ? '<span class="premise-tooltip"><i>'.$this->field['tooltip'].'</i></span>'  : '';
 		
 		/**
 		 * Set the field['type'] value

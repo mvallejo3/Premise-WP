@@ -1,15 +1,17 @@
 <?php
 /**
  * Premise Custom Post Type Class
- * @package Premise
- * @subpackage Custom Post Type
+ *
+ * @package Premise WP
+ * @subpackage Model
  */
 
 
 /**
- * Custom Post Type Class
+ * This Premise WP class is based on jjgrainger's custom_post_type class.
  *
  * Used to help create custom post types for Wordpress.
+ * 
  * @link http://github.com/jjgrainger/wp-custom-post-type-class/
  *
  * @author  jjgrainger

@@ -8,7 +8,7 @@
  * under @see premise-ajax-library.php
  *
  * @package Premise WP
- * @package Library
+ * @subpackage Library
  *
  * @author Mario Vallejo <mario@vallgroup.com>
  * @since 1.2
@@ -26,7 +26,7 @@
  *        Old params: (array) arguments, (boolean) echo
  *        New params: (string) type, (array) arguments, (boolean) echo
  * 
- * @see class PremiseField in premise-forms-class.php
+ * @see class PremiseField in model-premise-field.php
  *
  * @param string $type  the type of field to print or return. i.e. text, textarea, checkbox, wp_media, video
  * @param  array  $args array of arguments to buid a field
@@ -105,8 +105,6 @@ function premise_field_section( $args = array(), $echo = true ) {
 		return premise_field_section_deprecated( $args, $echo );
 	}
 
-	var_dump($args);
-	
 	$html = ''; // Start with a clean section
 
 	foreach( $args as $k => $v ) {
