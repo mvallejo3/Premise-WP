@@ -911,7 +911,7 @@ class PremiseField {
 
 		$context = ! empty( $this->args['context'] ) ? $this->args['context'] : '';
 
-		$val = premise_get_option( $name, $context );
+		$val = premise_get_value( $name, $context );
 
 		if ( $val ) 
 			return esc_attr( $val );

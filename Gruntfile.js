@@ -29,6 +29,10 @@ module.exports = function(grunt) {
 					livereload: true
 				},
 			},
+			concat: {
+				files: ['library/source/*','includes/deprecated/source/*'],
+				tasks: ['concat'],
+			},
 			livereload: {
 				// reload page when css, js, images or php files changed
 				files: ['css/*.css', 'js/*.js', 'img/**/*.{png,jpg,jpeg,gif,webp,svg}', '**/*.php']
@@ -68,7 +72,21 @@ module.exports = function(grunt) {
 					'css/<%= pkg.name %>.min.css': ['css/source/*.css']
 				}
 			}
-		}
+		},
+
+		concat: {
+			options: {
+				separator: '',
+			},
+			library: {
+				src: ['library/source/*'],
+				dest: 'library/premise-library.php',
+			},
+			deprecated: {
+				src: ['includes/deprecated/source/*'],
+				dest: 'includes/deprecated/deprecated.php',
+			},
+		},
 		
 	});
 
@@ -77,6 +95,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 
 	// Default task(s).
 	grunt.registerTask( 'default', ['watch'] );
