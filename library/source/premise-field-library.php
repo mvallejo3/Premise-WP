@@ -75,12 +75,12 @@ function premise_field( $type = 'text', $args = array(), $echo = true ) {
 function premise_field_deprecated( $args = array(), $echo = true ) {
 
 	if( array_key_exists( 'options', $args ) || (count($args) == count($args, COUNT_RECURSIVE) ) ) {
-		$field = new PremiseField_Deprecated( $args );
+		$field = new PremiseField( '', $args );
 		$html .= $field->get_field();
 	}
 	else{
 		foreach ( $args as $arg ) {
-			$field = new PremiseField_Deprecated( $arg );
+			$field = new PremiseField( '', $arg );
 			$html .= $field->get_field();
 		}
 	}
@@ -138,7 +138,7 @@ function premise_field_section_deprecated( $args = array(), $echo = true ) {
 	$html .= !empty( $field_section['container_title'] )                                             ? '<h3>' . $field_section['container_title'] . '</h3>'            : '';
 	$html .= !empty( $field_section['container_desc'] )                                             ? '<p>' . $field_section['container_desc'] . '</p>'               : '';
 	$html .= !empty( $field_section['container_inner_class'] )                                       ? '<div class="' . $field_section['container_inner_class'] . '">' : '';
-	$html .= premise_field( $field_section['fields'], false ); // This gets the actual field
+	$html .= premise_field_deprecated( $field_section['fields'], false ); // This gets the actual field
 	$html .= !empty( $field_section['container_inner_class'] )                                       ? '</div>'                                                        : '';
 	$html .= ( true === $field_section['container'] )                                                ? '</div>'                                                        : '';
 

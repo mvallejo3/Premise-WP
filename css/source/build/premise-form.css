@@ -119,7 +119,7 @@
  * Add an icon next to the label element that explains the field
  * to the user.
  */
-.premise-field label > span.premise-tooltip {
+.premise-field span.premise-tooltip {
 	position:relative;
 	display:inline-block;
 	vertical-align: top;
@@ -135,7 +135,7 @@
 	content: "\f05a";
 }
 
-.premise-field label > span.premise-tooltip > i {
+.premise-field span.premise-tooltip > i {
 	visibility:hidden;
 	opacity:0;
 	position:absolute;
@@ -157,11 +157,11 @@
 	text-transform: none;
 }
 
-.premise-admin .premise-field label > span.premise-tooltip > i {
+.premise-admin .premise-field span.premise-tooltip > i {
 	font-size: 0.65em;
 }
 
-.premise-field label > span.premise-tooltip:hover > i {
+.premise-field span.premise-tooltip:hover > i {
 	visibility:visible;
 	opacity:1;
 }

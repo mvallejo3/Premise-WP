@@ -203,6 +203,12 @@ class PremiseField {
 		if( ! empty( $args ) && is_array( $args ) )
 			$this->args = $args;
 
+		if ( ( empty( $type ) && is_array( $args ) ) && array_key_exists( 'type', $args ) ) {
+			$this->type = $args['type'];
+			unset( $args['type'] );
+			$this->args = $args;
+		}
+
 		/**
 		 * Initiate the field
 		 */
