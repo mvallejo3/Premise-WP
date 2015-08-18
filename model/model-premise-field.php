@@ -435,6 +435,10 @@ class PremiseField {
 				$html .= $this->video();
 				break;
 
+			case 'wp_color':
+				$html .= $this->wp_color();
+				break;
+
 			default:
 				$html .= $this->input_field();
 				break;
@@ -896,6 +900,54 @@ class PremiseField {
 	 */
 	public function video_textarea( $field ) {
 		return str_replace( '<textarea', '<textarea data-type="video" class="premise-video"', $field );
+	}
+
+
+
+
+
+	/**
+	 * build wp_color field
+	 *
+	 * Right now this only returns a textarea with some classes added to it. 
+	 * Eventually this should have options to search for wp_color to embed and
+	 * display the wp_color belo or something.
+	 *
+	 * @since 1.2
+	 */
+	protected function wp_color() {
+
+		/**
+		 * We our own filter to alter the html of our input field
+		 */
+		add_filter( 'premise_field_input', array( $this, 'wp_color_input' ) );
+
+		/**
+		 * call the input field. 
+		 * 
+		 * This will be alter due to our hook above
+		 * 
+		 * @var string
+		 */
+		$field = $this->input_field();
+
+		return $field;
+	}
+
+
+
+
+
+	/**
+	 * Filter the textarea for wp_color field
+	 *
+	 * @since 1.2 
+	 * 
+	 * @param  string $field html for textarea field
+	 * @return string        new html
+	 */
+	public function wp_color_input( $field ) {
+		return str_replace( 'type="wp_color"', 'type="text" data-type="wp_color" class="premise-wp_color"', $field );
 	}
 
 

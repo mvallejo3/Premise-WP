@@ -199,7 +199,7 @@ class Premise_WP_FW_Class {
 		wp_register_style( 'premise_style_css'   , PREMISE_URL . 'css/Premise-Wp.min.css', array( 'premise_font_awesome' ) );
 		
 		//register scripts
-		wp_register_script( 'premise_script_js'  , PREMISE_URL . 'js/Premise-Wp.min.js', array( 'jquery' ) );
+		wp_register_script( 'premise_script_js'  , PREMISE_URL . 'js/Premise-Wp.min.js', array( 'jquery', 'wp-color-picker' ) );
 
 		//if is admin, register & enqueue jquery.minicolors + ms-Dropdown + premise_admin
 		if ( is_admin() ) {
@@ -215,6 +215,8 @@ class Premise_WP_FW_Class {
 			wp_enqueue_script( 'msdropdown_js' );
 			wp_enqueue_style( 'msdropdown_css' );
 		}
+		
+		wp_enqueue_style( 'wp-color-picker' );
 
 		wp_enqueue_style( 'premise_style_css' );
 		wp_enqueue_script( 'premise_script_js' );
