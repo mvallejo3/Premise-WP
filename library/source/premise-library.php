@@ -294,4 +294,43 @@ function premise_name_att_to_array( $name ) {
 
 
 
+/**
+ * Generate a random string
+ *
+ * Returns a random string with a set number of characters. 
+ * The string includes only letters and numbers at this point.
+ *
+ * @since 1.2 might use it for shortcodes, thought it might be useful for someone one day.
+ * 
+ * @param  int    $length number of characters to return in the string. defaults to 8
+ * @return string         string with random characters
+ */
+function premise_rand_str( $length = '' ) {
+
+	// set default le\ngth if length is empty or not a number
+	$length = ! empty( $length ) && is_numeric( $length ) ? intval( $length ) : 8;
+	
+	//start with empty string
+	$token = "";
+
+	//define chars to use in random string
+	$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+	//count chars and deduct one because we are counting from zero later
+	$num_chars = strlen($chars) - 1;
+	
+	//generate random string
+	for($i=0; $i<$length; $i++) {
+		$pick = mt_rand(0,$num_chars);
+		$char = $chars[$pick];
+		$token .= $char;
+	}
+	
+	//return random string
+	return esc_attr( $token );
+}
+
+
+
+
 ?>
