@@ -321,8 +321,8 @@ function premise_rand_str( $length = '' ) {
 	
 	//generate random string
 	for($i=0; $i<$length; $i++) {
-		$pick = mt_rand(0,$num_chars);
-		$char = $chars[$pick];
+		$pick   = mt_rand(0,$num_chars);
+		$char   = $chars[$pick];
 		$token .= $char;
 	}
 	

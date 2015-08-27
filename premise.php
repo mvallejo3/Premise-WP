@@ -35,9 +35,11 @@ else
 /**
  * Intantiate and setup Premise
  */
-$init = new Premise_WP_FW_Class;
+// $init = new Premise_WP_FW_Class;
 
-$init->premise_setup();
+// $init->premise_setup();
+
+add_action( 'init', array( Premise_WP_FW_Class::get_instance(), 'premise_setup' ) );
 
 
 /**

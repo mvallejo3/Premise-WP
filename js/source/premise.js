@@ -5,6 +5,8 @@ jQuery(function($){
 	 */
 	PremiseField.init();
 
+	PremiseAjax.init();
+
 	premiseSameHeight();
 
 	premiseMinicolors();

@@ -46,15 +46,17 @@ function premise_field( $type = 'text', $args = array(), $echo = true ) {
 		$args = $type;
 		premise_field_deprecated( $args, $echo );
 	}
+	else {
+		$type  = ! empty( $type ) && is_string( $type ) ? $type : 'text';
+		$field = new PremiseField( $type, $args );
+		$html  = $field->get_field();
 
-	$type  = ! empty( $type ) && is_string( $type ) ? $type : 'text';
-	$field = new PremiseField( $type, $args );
-	$html  = $field->get_field();
-
-	if( !$echo )
-		return $html;
-	else
-		echo $html;
+		if( !$echo )
+			return $html;
+		else
+			echo $html;
+	}
+	return false;
 }
 
 

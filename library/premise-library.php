@@ -135,15 +135,17 @@ function premise_field( $type = 'text', $args = array(), $echo = true ) {
 		$args = $type;
 		premise_field_deprecated( $args, $echo );
 	}
+	else {
+		$type  = ! empty( $type ) && is_string( $type ) ? $type : 'text';
+		$field = new PremiseField( $type, $args );
+		$html  = $field->get_field();
 
-	$type  = ! empty( $type ) && is_string( $type ) ? $type : 'text';
-	$field = new PremiseField( $type, $args );
-	$html  = $field->get_field();
-
-	if( !$echo )
-		return $html;
-	else
-		echo $html;
+		if( !$echo )
+			return $html;
+		else
+			echo $html;
+	}
+	return false;
 }
 
 
@@ -572,8 +574,8 @@ function premise_rand_str( $length = '' ) {
 	
 	//generate random string
 	for($i=0; $i<$length; $i++) {
-		$pick = mt_rand(0,$num_chars);
-		$char = $chars[$pick];
+		$pick   = mt_rand(0,$num_chars);
+		$char   = $chars[$pick];
 		$token .= $char;
 	}
 	

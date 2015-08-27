@@ -35,7 +35,10 @@ include_once( PREMISE_PATH . 'controller/premise-one-page-nav-class.php' );
 /**
  * Libraries
  */
-include_once( PREMISE_PATH . 'library/premise-library.php' );
+include_once( PREMISE_PATH . 'library/source/premise-library.php' );
+include_once( PREMISE_PATH . 'library/source/premise-field-library.php' );
+include_once( PREMISE_PATH . 'library/source/premise-ajax-library.php' );
+include_once( PREMISE_PATH . 'library/source/premise-tabs-library.php' );
 
 
 
