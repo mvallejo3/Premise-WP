@@ -38,24 +38,38 @@ function premise_field( $type = 'text', $args = array(), $echo = true ) {
 	/**
 	 * Backward compatibility with version < 1.2
 	 *
-	 * Allows you to skipt the first param and pass it as part of args i.e. ( 'type' => 'text' )
+	 * Allows you to skip the first param and pass it as part of args i.e. ( 'type' => 'text' )
 	 * 
-	 * @since 1.2 If the first param passed is an array, the function was called the old way. Fix it.
+	 * @since 1.2 If the first param is an array, the function was called the old way
+	 *            or it was called from premise_field_section(). Unset 'type' and pass
+	 *            arguments correctly as expected by since 1.2
 	 */
 	if ( is_array( $type ) ) {
+
+		$_type = 'text';
+		
+		// if 'type' param was submitted, get it and unset it
+		if ( isset( $type['type'] ) ) {
+			$_type = $type['type'];
+			unset( $type['type'] );
+		}
+		
 		$args = $type;
-		premise_field_deprecated( $args, $echo );
+		$type = $_type;
 	}
 	else {
 		$type  = ! empty( $type ) && is_string( $type ) ? $type : 'text';
-		$field = new PremiseField( $type, $args );
-		$html  = $field->get_field();
-
-		if( !$echo )
-			return $html;
-		else
-			echo $html;
+		$args  = is_array( $args ) ? $args : array();
 	}
+	
+	$field = new PremiseField( $type, $args );
+	$html  = $field->get_field();
+
+	if( !$echo )
+		return $html;
+	else
+		echo $html;
+
 	return false;
 }
 
@@ -98,11 +112,25 @@ function premise_field_deprecated( $args = array(), $echo = true ) {
 
 /**
  * Premise field section
- * @param  array   $args array of arrays. each array contains 
- * @param  boolean $echo [description]
- * @return [type]        [description]
+ *
+ * Group of fields wrapped within one parent element.
+ *
+ * @since  1.2     Simplified arameters since version 1.2; You can no longer use 'container' parameters.
+ *                 instead, future versions will incorporate filters and hooks to provide more control 
+ *                 over the field section.
+ * 
+ * @param  array   $args array of arrays. The fields to insert
+ * @param  boolean $echo whether to echo ro return the string
+ * @return string  html for field section
  */
 function premise_field_section( $args = array(), $echo = true ) {
+	/**
+	 * Backward comaptibility with versions < 1.2
+	 *
+	 * if the $args array has the key 'fields', it was called using the old way. we need to fix that.
+	 *
+	 * @since  1.2 array of array no longer requires fields to be in its own array called 'fields'
+	 */
 	if ( array_key_exists( 'fields', $args ) ) {
 		return premise_field_section_deprecated( $args, $echo );
 	}
@@ -110,7 +138,10 @@ function premise_field_section( $args = array(), $echo = true ) {
 	$html = ''; // Start with a clean section
 
 	foreach( $args as $k => $v ) {
-		$html .= is_array( $v ) ? premise_field( $k, $v, $echo ) : premise_field( $v, '', $echo );
+
+		if ( is_array( $v ) ) {
+			$html .= premise_field( $v, '', false );
+		}
 	}
 
 	if( ! $echo )
@@ -122,7 +153,17 @@ function premise_field_section( $args = array(), $echo = true ) {
 
 
 
-
+/**
+ * Old premise field section
+ *
+ * @since      1.2     Used to be premise_field_section(). Kept for backward compatibility.
+ *
+ * @deprecated 1.2     Replaced with premise_field_section()
+ * 
+ * @param      array   $args array of array for aguments to build field section
+ * @param      boolean $echo wheteher to output the fields or return as string
+ * @return     string  html for string. echoed or returned
+ */
 function premise_field_section_deprecated( $args = array(), $echo = true ) {
 	$defaults = array(
 		'container'             => true,
