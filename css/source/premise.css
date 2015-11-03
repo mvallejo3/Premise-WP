@@ -110,7 +110,9 @@ img.premise-responsive {
 	margin-right:-1%;
 }
 
-.premise-row:after{
+.premise-row:after,
+/* This one is just helpful! */
+.premise-clear-float:after {
 	content:"";
 	display:block;
 	clear: both;
