@@ -16,7 +16,6 @@ create. *i.e.* _`text` will build an `input` field with attribute `type="text"`,
 The second argument is an array of options that builds your field and tells Premise how to treat it.
 
 ```php
-
 /**
  * Build a text field
  * 
@@ -30,13 +29,11 @@ premise_field( 'text', array(
 
 // The code above prints the following text field
 <input type="text" name="my_option[in_an_array]" id="my_option-in_an_array">
-
 ```
 
 If you want to add a custom field to a user profile or a post (supports pages and custom post types), simply pass a `context` parameter along with your array of options.
 
 ```php
-
 /**
  * Build a text field for a post
  * 
@@ -50,14 +47,12 @@ premise_field( 'text', array(
 
 // The code above prints the following text field
 <input type="text" name="my_option[in_an_array]" id="my_option-in_an_array">
-
 ```
 
 Here is a list of arguments
 that you can pass and what each does.
 
 ```php
-
 $defaults = array(
 	/**
 	 * Special Parameters
@@ -77,7 +72,6 @@ $defaults = array(
 	'options'    => array(), // options for select fields in this format ( Text => Value )
 	'attribute'  => '',      // html attributes to add to element i.e. onchange="doSomethingCool()"
 );
-
 ```
 
 ## Premise Hooks  
