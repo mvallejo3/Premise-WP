@@ -3,9 +3,15 @@
 Premise WP is a Wordpress framework for developers who build themes and plugins. It allows you to quickly build options in the backend by doing the heavy lifting and repetitive tasks
 for you. Premise WP aslo comes with a CSS framework readily available on both the backend and frontend that allows you to quickly build responsive markup.
 
-To begin using Premise WP simply download and install the plugin, once you activate it you are all set! You can begin using it in your theme or plugin.
+To begin using Premise WP simply download and install the plugin, once you activate it you are all set! You can begin using it in your theme or plugin's code.
 
-### Creating options in the backend
+---
+
+### Building options in the backend
+
+To build options in the backend of Wordpress call `premise_field()` and pass it some arguments to build the type of form element you wish to use for your new option. The function will
+output the HTML for the field. The most common arguments you will use are listed in the examples below. The first argument, `text`, lets the function know what type of field you want to
+create. - _i.e. `text` will build an `input` field with attribute `type="text"`; `textarea` will build a `textarea` field._
 
 ```php
 
