@@ -31,7 +31,7 @@ premise_field( 'text', array(
 <input type="text" name="my_option[in_an_array]" id="my_option-in_an_array">
 ```
 
-If you want to add a custom field to a user profile or a post (supports pages and custom post types), simply pass a `context` parameter along with your array of options.
+If you want to add a custom field to a user profile or a post (supports pages and custom post types), simply pass a `context` parameter as part of the array of options.
 
 ```php
 /**
@@ -72,6 +72,33 @@ $defaults = array(
 	'options'    => array(), // options for select fields in this format ( Text => Value )
 	'attribute'  => '',      // html attributes to add to element i.e. onchange="doSomethingCool()"
 );
+```
+
+### Building quick markup
+
+Premise WP comes with a small yet powerful CSS framework that helps you build markup quickly. Here are some of the most common uses of the framework.
+
+```html
+/*
+ * Columns
+ * 
+ * Columns are useful when creating a grid where all columns have equal widths.
+ * The example below adds 3 columns in a row
+ */
+<div class="premise-row">
+	<div class="col3">
+		This column will occupy
+		1/3 of it's parent element.
+	</div>
+	<div class="col3">
+		This column will occupy
+		1/3 of it's parent element.
+	</div>
+	<div class="col3">
+		This column will occupy
+		1/3 of it's parent element.
+	</div>
+</div>
 ```
 
 ## Premise Hooks  
