@@ -1,37 +1,11 @@
-
 # Premise WP Framework  
 
-Premise WP was built for developers who build themes and plugins for Wordpress. Create theme options, write responsive markup, and add UX functionality quickly and easily.
+Premise WP is a Wordpress framework for developers who build themes and plugins. It allows you to quickly build options in the backend by doing the heavy lifting and repetitive tasks
+for you. Premise WP aslo comes with a CSS framework readily available on both the backend and frontend that allows you to quickly build responsive markup.
 
-Premise is easy to use. Simply download Premise WP and copy the folder `Premise-WP` into your project. To make sure that there are no conflicts with any other projects using 
-Premise WP ALWAYS make sure to include it in your project this way..   
+To begin using Premise WP simply download and install the plugin, once you activate it you are all set! You can begin using it in your theme or plugin.
 
-```php
-
-/**
- * Load Premise WP Framework 
- * only if it does not exist already
- *
- * This prevents any other plugins already running Premise WP code
- * from creating conflicts. 
- *
- * We use the class Premise_WP_FW_Class because it is the first class called
- * by Premise WP. 
- *
- * ALWAYS include Premise WP in your projects this way
- *
- * Note: This should be the first line of code on your theme's functions.php file or your plugin's main file. 
- *       You should always use the most current version Premise WP.
- */
-if ( ! class_exists( 'Premise_WP_FW_Class' ) )
-	require( 'Premise-WP/premise.php' );
-
-```  
-
-## Creating Options with Premise WP
-
-The `premise_field()` function lets you create form fields by simply passing some parameters to it. The first param it takes is a string with the type of field you want to create. If you want to 
-create a text field, you simply pass the string `text` to the function.
+### Creating options in the backend
 
 ```php
 
