@@ -9,53 +9,51 @@ To begin using Premise WP simply download and install the plugin, once you activ
 
 ### Building options in the backend
 
-To build options in the backend of Wordpress call `premise_field()` and pass it some arguments to build the type of form element you wish to use for your new option. The function will
+To build options in the backend of Wordpress call `premise_field()` and pass it some arguments so it knows the type of form element you wish to use for your option. The function will
 output the HTML for the field. The most common arguments you will use are listed in the examples below. The first argument, `text`, lets the function know what type of field you want to
-create. - _i.e. `text` will build an `input` field with attribute `type="text"`; `textarea` will build a `textarea` field._
+create. *i.e.* _`text` will build an `input` field with attribute `type="text"`, `textarea` will build a `textarea` field._
+
+The second argument is an array of options that builds your field and tells Premise how to treat it.
 
 ```php
 
 /**
- * Print a text field
- */
-premise_field( 'text' );
-
-/**
- * The code above prints the following field
- */
-<input type="text">
-
-```
-
-To add more attributes to our field, we pass the attributes that we want to add in an array as our second param. Here is how we would add a `name` attribute to our field.
-
-```php
-
-/**
- * Print a text field with name attribute
+ * Build a text field
  * 
- * The second param is an array
+ * By assigning a 'name' attribute, Premise automatically fills in the id attribute
+ * for the field and when the user saves the option, Premise automatically grabs the value
+ * from the options table in the database.
  */
-premise_field( 'text', array( 'name' => 'my_field_name' ) );
+premise_field( 'text', array(
+	'name' => 'my_option[in_an_array]'
+) );
 
-/**
- * The code above prints the following field
- */
-<input type="text" name="my_field_name">
+// The code above prints the following text field
+<input type="text" name="my_option[in_an_array]" id="my_option-in_an_array">
 
 ```
 
-You can create any field you want by simply passing the type of field as your first parameter. If you call `premise_field( 'textarea' )` it would create a textarea field. The same goes for 
-`premise_field( 'select' )` or `premise_field( 'email' )`. 
+If you want to add a custom field to a user profile or a post (supports pages and custom post types), simply pass a `context` parameter along with your array of options.
 
-Notice that for `input` fields you only pass the type of field, where as for `select` or `textarea` fields you have to pass the tag name. 
+```php
 
-Premise WP also has some special types of fields built into it. So far, these types of fields include `wp_media`, `fa_icon`, and `video`. Here is what these special types of fields do:
-* `wp_media`: Create a 'File Upload' field that utilizes Wordpress Media Uploader 
-* `fa_icon`: Create Icon field (lets users choose/insert an icon) that utilizes Font Awesome icon library
-* `video`: Create an embed video field
+/**
+ * Build a text field for a post
+ * 
+ * The context parameter lets Premise know if the field is meant for a user, post, or option.
+ * default is option, so the context para is only required when on a post or user profile.
+ */
+premise_field( 'text', array(
+	'name' => 'my_option[in_an_array]',
+	'context' => 'post' // Grab value for current post
+) );
 
-You can add a lot more to a field than just attributes. Simply by including some arguments as part of our second param array can add things like a tooltip or a label. Here is a list of arguments
+// The code above prints the following text field
+<input type="text" name="my_option[in_an_array]" id="my_option-in_an_array">
+
+```
+
+Here is a list of arguments
 that you can pass and what each does.
 
 ```php
@@ -65,76 +63,22 @@ $defaults = array(
 	 * Special Parameters
 	 */
 	'label'      => '',      // Wraps label element around field. uses id for for attribute if id not empty
-	'tooltip'    => '',      // Adds a tooltip and tooltip functionality to field
+	'tooltip'    => '',      // Adds a tooltip to field
 	'add_filter' => '',      // Add a filter to this field. Read documentation for list of filters
 	'context'    => '',      // Used to let Premise know where to retrieve values from ( post, user )
 	/**
 	 * Normal Parameters
 	 */
 	'name'       => '',      // name attribute. if empty fills from id
-	'id'         => '',      // id attribute. if empty fills from name
-	'value'      => '',      // value attribute. by default tries to get_option(name)
-	'value_att'  => '',      // value attribute. Used for checkboxes and radio
-	'default'    => '',      // if value is empty and get_option() return false
+	'id'         => '',      // id attribute. if empty fills from name (if name not empty)
+	'value'      => '',      // value attribute. if empty tries to get value from get_option(name) unless 'context' is post|user
+	'value_att'  => '',      // value attribute. Used for checkboxes and radio to display the default vale="" attribute
+	'default'    => '',      // if value is empty displays a default value
 	'options'    => array(), // options for select fields in this format ( Text => Value )
 	'attribute'  => '',      // html attributes to add to element i.e. onchange="doSomethingCool()"
 );
 
 ```
-
-
-
-## One Page Nav
-
-Call the `PremiseOnePageNavClass` class in your `functions.php` file to activate the One Page Nav functionality on your theme's Front / Home page.
-
-```php
-
-<?php
-
-/**
- * One Page Nav
- *
- * Calls the class on the post edit screen.
- */
-function premise_call_one_page_nav_class() {
-    new PremiseOnePageNavClass;
-}
-
-add_action( 'wp_loaded', 'premise_call_one_page_nav_class' );
-
-?>
-
-```
-
-Then call it again in your `functions.php` file when generating your theme's main menu navigation.
-
-```php
-
-<?php
-
-/**
- * Main navigation
- * 
- * @return void
- */
-function main_nav()
-{
-	wp_nav_menu(
-		array(
-			'theme_location'  => 'header-menu', // DO NOT MODIFY
-			//call custom Walker Nav menu if One Page Home checked
-			'walker'          => ( IS_HOME_ONE_PAGE ?
-									new PremiseOnePageNavClass : '' ),
-		)
-	);
-}
-
-?>
-
-```  
-
-===  
 
 ## Premise Hooks  
 

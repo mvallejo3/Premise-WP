@@ -50,7 +50,7 @@ function premise_print( $var ) {
  * @see https://developer.wordpress.org/reference/functions/get_post_meta/ single param is the last param this function takes
  * @see https://developer.wordpress.org/reference/functions/get_user_meta/ single param is the last param this function takes
  *
- * @since 1.2 made it possible to search within posts and users as well as regilar options
+ * @since 1.2 made it possible to search within posts and users as well as options
  *        This function was created as a helper for the PremiseField class.
  *
  * @param  string $name     name attribute for the field
