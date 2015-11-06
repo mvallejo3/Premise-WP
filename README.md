@@ -74,6 +74,8 @@ $defaults = array(
 );
 ```
 
+---
+
 ### Building quick markup
 
 Premise WP comes with a small yet powerful CSS framework that helps you build markup quickly. Here are some of the most common uses of the framework.
@@ -136,6 +138,55 @@ Class  | Output                                     |
 `col4` | 1 column with 1/4 the width of it's parent | 
 `col5` | 1 column with 1/5 the width of it's parent | 
 `col6` | 1 column with 1/6 the width of it's parent | 
+
+#### Grid with different column widths
+
+To create grids that have different column widths use the class `span` instead of `col`. The number that comes after each `span` class represent the number of columns that element should occupy.
+`span` grids are based on a 12 column grid where the `premise-row` element is broken down into 12 columns - _`span1` occupies 1 out of 12 columns, `span4` occupies 4 out of 12 columns, etc_.
+
+```html
+<div class="premise-row">
+	<div class="span2">
+		This column will occupy
+		2/12 of it's parent element.
+	</div>
+	<div class="span2">
+		This column will occupy
+		2/12 of it's parent element.
+	</div>
+	<div class="span4">
+		This column will occupy
+		4/12 of it's parent element.
+	</div>
+	<div class="span1">
+		This column will occupy
+		1/12 of it's parent element.
+	</div>
+	<div class="span3">
+		This column will occupy
+		3/12 of it's parent element.
+	</div>
+</div>
+```
+
+Here is a list of all `span` classes:
+
+Class    | Output                        |
+---      | ---                           |
+`span1`  | Occupies 1 out of 12 columns  |
+`span2`  | Occupies 2 out of 12 columns  |
+`span3`  | Occupies 3 out of 12 columns  |
+`span4`  | Occupies 4 out of 12 columns  |
+`span5`  | Occupies 5 out of 12 columns  |
+`span6`  | Occupies 6 out of 12 columns  |
+`span7`  | Occupies 7 out of 12 columns  |
+`span8`  | Occupies 8 out of 12 columns  |
+`span9`  | Occupies 9 out of 12 columns  |
+`span10` | Occupies 10 out of 12 columns |
+`span11` | Occupies 11 out of 12 columns |
+`span12` | Occupies 12 out of 12 columns |
+
+---
 
 ## Premise Hooks  
 
