@@ -191,10 +191,10 @@ Class    | Output                        |
 Premise's CSS framework also has a series of clases that are meant to speed up the way you apply commonly used CSS properties saving you time and KB since you have to write less CSS. All
 of Premise's CSS classes are prefixed with `premise-` to avoid any conflicts with third party stylesheets. Here is a list of some useful classes that come in very handy!
 
-Class                 | Output                                       |
----                   | ---                                          |
-`.premise-responsive` | Addthis class toan img to make it responsive |
-`.premise-border-box` | Assign `box-sizing:border-box;`to an element |
+Class                 | Output                                           |
+---                   | ---                                              |
+`.premise-responsive` | Add this class to an image to make it responsive |
+`.premise-border-box` | Assigns `box-sizing:border-box;` to an element   |
 
 For a full list of CSS classes available and the styles each assign take a look at the [source file](css/source/premise.css 'Premise WP core CSS file').
 
