@@ -196,7 +196,7 @@ Class                 | Output                                       |
 `.premise-responsive` | Addthis class toan img to make it responsive |
 `.premise-border-box` | Assign `box-sizing:border-box;`to an element |
 
-For a full list of CSS classes available and the styles each assign take a look at the [source file](css/source/premise.css Premise WP core CSS file).
+For a full list of CSS classes available and the styles each assign take a look at the [source file](css/source/premise.css, 'Premise WP core CSS file').
 
 ---
 
