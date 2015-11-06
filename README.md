@@ -78,13 +78,12 @@ $defaults = array(
 
 Premise WP comes with a small yet powerful CSS framework that helps you build markup quickly. Here are some of the most common uses of the framework.
 
+#### Columns
+
+Columns are useful when creating a grid where all columns have equal widths. The example below adds 3 columns in a row. By assigning the class `premise-row` to 
+the parent element, we let premise know that we are building a grid. 
+
 ```html
-/*
- * Columns
- * 
- * Columns are useful when creating a grid where all columns have equal widths.
- * The example below adds 3 columns in a row
- */
 <div class="premise-row">
 	<div class="col3">
 		This column will occupy
@@ -100,6 +99,44 @@ Premise WP comes with a small yet powerful CSS framework that helps you build ma
 	</div>
 </div>
 ```
+
+You can also mix `col` classes this way..
+
+```html
+<div class="premise-row">
+	<div class="col3">
+		This column will occupy
+		1/3 of it's parent element.
+	</div>
+	<div class="col3">
+		This column will occupy
+		1/3 of it's parent element.
+	</div>
+	<div class="col3">
+		This column will occupy
+		1/3 of it's parent element.
+	</div>
+	<div class="col2">
+		This column will occupy
+		1/2 of it's parent element.
+	</div>
+	<div class="col2">
+		This column will occupy
+		1/2 of it's parent element.
+	</div>
+</div>
+```
+
+The code above will produce one row that has 3 columns at the top and 2 at the bottom. Here is a list of all `col` classes:
+
+Class  | Output                                     | 
+---    | ---                                        | 
+`col1` | 1 column with 1/1 the width of it's parent | 
+`col2` | 1 column with 1/2 the width of it's parent | 
+`col3` | 1 column with 1/3 the width of it's parent | 
+`col4` | 1 column with 1/4 the width of it's parent | 
+`col5` | 1 column with 1/5 the width of it's parent | 
+`col6` | 1 column with 1/6 the width of it's parent | 
 
 ## Premise Hooks  
 
