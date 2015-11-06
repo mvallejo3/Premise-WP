@@ -216,6 +216,7 @@ Hook                               | Type         | Description                 
 `premise_field_remove_btn`         | Filter       | filter the wp media remove button       |
 `premise_field_icon_insert_btn`    | Filter       | do filter for button to show fa icon    |
 `premise_field_icon_remove_btn`    | Filter       | do filter for button to hide fa icon    |
+`premise_field_section_html`       | Filter       | filter the field section html           |
 `premise_field_fa_icon_html`       | Trigger      | do filter for fa_icon field             |
 `premiseFieldAfterInit`            | Trigger      | do hook after PremiseField object inits |
 `premiseFieldAfterFaIconsOpen`     | Trigger      | do hook after icons box opens           |

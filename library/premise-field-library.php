@@ -76,46 +76,12 @@ function premise_field( $type = 'text', $args = array(), $echo = true ) {
 
 
 
-
-/**
- * Old premise field
- *
- * @since 1.2 Used to be premise_field() but whole class got replaced. offered for backward compatibility.
- *
- * @deprecated 1.2 Replaced with premise_field()
- * 
- * @param  array   $args array of array for aguments to build field
- * @param  boolean $echo wheteher to putput the field or return as string
- * @return string        html for string. echoed or returned
- */
-function premise_field_deprecated( $args = array(), $echo = true ) {
-
-	if( array_key_exists( 'options', $args ) || (count($args) == count($args, COUNT_RECURSIVE) ) ) {
-		$field = new PremiseField( '', $args );
-		$html .= $field->get_field();
-	}
-	else{
-		foreach ( $args as $arg ) {
-			$field = new PremiseField( '', $arg );
-			$html .= $field->get_field();
-		}
-	}
-	
-	if( !$echo )
-		return $html;
-	else
-		echo $html;
-}
-
-
-
-
 /**
  * Premise field section
  *
  * Group of fields wrapped within one parent element.
  *
- * @since  1.2     Simplified arameters since version 1.2; You can no longer use 'container' parameters.
+ * @since  1.2     Simplified parameters since version 1.2; You can no longer use 'container' parameters.
  *                 instead, future versions will incorporate filters and hooks to provide more control 
  *                 over the field section.
  * 
@@ -131,18 +97,23 @@ function premise_field_section( $args = array(), $echo = true ) {
 	 *
 	 * @since  1.2 array of array no longer requires fields to be in its own array called 'fields'
 	 */
-	if ( array_key_exists( 'fields', $args ) ) {
-		return premise_field_section_deprecated( $args, $echo );
-	}
+	$args = array_key_exists( 'fields', $args ) && is_array( $args['fields'] ) ? $args['fields'] : $args;
 
 	$html = ''; // Start with a clean section
 
 	foreach( $args as $k => $v ) {
 
 		if ( is_array( $v ) ) {
+			// Pass each field args as first parameter
+			// We can do this because of backward compatibilty
 			$html .= premise_field( $v, '', false );
 		}
 	}
+
+
+	$html = apply_filters( 'premise_field_section_html', $html );
+
+	remove_all_filters( 'premise_field_section_html' );
 
 	if( ! $echo )
 		return $html;

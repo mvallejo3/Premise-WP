@@ -19,7 +19,7 @@ include_once( PREMISE_PATH . 'model/model-premise-custom-post-type.php' );
 /**
  * Controller
  */
-include_once( PREMISE_PATH . 'controller/premise-one-page-nav-class.php' );
+
 
 
 
@@ -27,7 +27,7 @@ include_once( PREMISE_PATH . 'controller/premise-one-page-nav-class.php' );
 /**
  * View
  */
-// include_once( PREMISE_PATH . 'view/.php' );
+
 
 
 
@@ -35,17 +35,5 @@ include_once( PREMISE_PATH . 'controller/premise-one-page-nav-class.php' );
 /**
  * Libraries
  */
-include_once( PREMISE_PATH . 'library/source/premise-library.php' );
-include_once( PREMISE_PATH . 'library/source/premise-field-library.php' );
-include_once( PREMISE_PATH . 'library/source/premise-ajax-library.php' );
-include_once( PREMISE_PATH . 'library/source/premise-tabs-library.php' );
-
-
-
-
-/**
- * Deprecated
- *
- * Every deprecated function and class is loaded here.
- */
-include_once( 'deprecated/deprecated.php' );
+include_once( PREMISE_PATH . 'library/premise-library.php' );
+include_once( PREMISE_PATH . 'library/premise-field-library.php' );

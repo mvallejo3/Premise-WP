@@ -247,3 +247,4 @@ class Premise_WP_FW_Class {
 		);
 	}
 }
+?>
