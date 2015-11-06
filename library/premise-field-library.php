@@ -2,16 +2,15 @@
 /**
  * Premise Field Library
  *
- * This file holds function helpers for our
- * field class and general form functionality.
- * Usually AJAX related functions may be located
- * under @see premise-ajax-library.php
+ * These functions are related only to the PremiseField class. Without this fiel
+ * said class will not work properly, but the rest of Premise WP will not be affected.
  *
+ * @see Premise-WP/model/model-premise-field.php PremiseField class lives here.
+ *
+ * @since 1.2 began to separate libraries
+ * 
  * @package Premise WP
  * @subpackage Library
- *
- * @author Mario Vallejo <mario@vallgroup.com>
- * @since 1.2
  */
 
 
