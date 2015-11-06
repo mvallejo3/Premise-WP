@@ -131,7 +131,6 @@ The code above will produce one row that has 3 columns at the top and 2 at the b
 
 Class  | Output                                     | 
 ---    | ---                                        | 
-`col1` | 1 column with 1/1 the width of it's parent | 
 `col2` | 1 column with 1/2 the width of it's parent | 
 `col3` | 1 column with 1/3 the width of it's parent | 
 `col4` | 1 column with 1/4 the width of it's parent | 
