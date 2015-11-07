@@ -29,10 +29,6 @@ module.exports = function(grunt) {
 					livereload: true
 				},
 			},
-			concat: {
-				files: ['library/source/*','includes/deprecated/source/*'],
-				tasks: ['concat'],
-			},
 			livereload: {
 				// reload page when css, js, images or php files changed
 				files: ['css/*.css', 'js/*.js', 'img/**/*.{png,jpg,jpeg,gif,webp,svg}', '**/*.php']
@@ -41,13 +37,17 @@ module.exports = function(grunt) {
 
 		uglify: {
 			options: {
-				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                compress: false
 			},
-			my_target: {
-				files: {
-					'js/<%= pkg.name %>.min.js': ['js/source/*.js']
-				}
-			}
+            build: {
+                src: [
+                    'js/source/premise-ajax.js',
+                    'js/source/premise-field.js',
+                    'js/source/premise.js'
+                ],
+                dest: 'js/<%= pkg.name %>.min.js'
+            }
 		},
 
 		autoprefixer: {
@@ -74,20 +74,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		concat: {
-			options: {
-				separator: '',
-			},
-			library: {
-				src: ['library/source/*'],
-				dest: 'library/premise-library.php',
-			},
-			deprecated: {
-				src: ['includes/deprecated/source/*'],
-				dest: 'includes/deprecated/deprecated.php',
-			},
-		},
-
 		phpdocumentor: {
 	        dist: {
 	            options: {
@@ -105,9 +91,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-concat');
 	// create PHP documentation
 	grunt.loadNpmTasks('grunt-phpdocumentor');
+
 	// Default task(s).
 	grunt.registerTask( 'default', ['watch'] );
 

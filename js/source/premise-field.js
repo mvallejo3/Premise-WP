@@ -350,10 +350,14 @@ PremiseField.WPMedia = {
 
 
 	/**
-	 * Remove media from uploaded or selected media
+	 * Remove a saved or uploaded file from the wp_media field. Empties the value.
+	 * 
+	 * @param  {object} el the button being clicked
+	 * @return {void}
 	 */
-	removeMedia: function() {
-		jQuery(this).parent().remove();
+	removeFile: function(el) {
+		jQuery(el).parent('.premise-field-wp_media').find('.premise-file-url').val('');
+		return false;
 	}
 }
 

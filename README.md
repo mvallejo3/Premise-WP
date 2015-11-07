@@ -204,23 +204,24 @@ For a full list of CSS classes available and the styles each assign take a look 
 
 Premise includes a variety of hooks that you can use to change or customize the way Premise behaves in your project. Here is a list of hooks and a brief description of what each hook does.  
 
-Hook                               | Type         | Description                             |
----------                          | :----------: | ------------------                      |
-`premise_field_label_html`         | Filter       | do hook for label html string           |
-`premise_field_raw_html`           | Filter       | filter the html for the field itself    |
-`premise_field_html_after_wrapper` | Filter       | insert html after the field wrapper     |
-`premise_field_html`               | Filter       | filter the html for the whole field     |
-`premise_field_input`              | Filter       | filter the input field html             |
-`premise_field_textarea`           | Filter       | filter the textarea field html          |
-`premise_field_upload_btn`         | Filter       | filter the wp media upload button       |
-`premise_field_remove_btn`         | Filter       | filter the wp media remove button       |
-`premise_field_icon_insert_btn`    | Filter       | do filter for button to show fa icon    |
-`premise_field_icon_remove_btn`    | Filter       | do filter for button to hide fa icon    |
-`premise_field_section_html`       | Filter       | filter the field section html           |
-`premise_field_fa_icon_html`       | Trigger      | do filter for fa_icon field             |
-`premiseFieldAfterInit`            | Trigger      | do hook after PremiseField object inits |
-`premiseFieldAfterFaIconsOpen`     | Trigger      | do hook after icons box opens           |
-`premiseFieldAfterFaIconsClose`    | Trigger      | do hook after icons close               |
+Hook                               | Type         | Description                                      |
+---------                          | :----------: | ------------------                               |
+`premise_field_label_html`         | Filter       | do hook for label html string                    |
+`premise_field_raw_html`           | Filter       | filter the html for the field itself             |
+`premise_field_html_after_wrapper` | Filter       | insert html after the field wrapper              |
+`premise_field_html`               | Filter       | filter the html for the whole field              |
+`premise_field_input`              | Filter       | filter the input field html                      |
+`premise_field_textarea`           | Filter       | filter the textarea field html                   |
+`premise_field_upload_btn`         | Filter       | filter the wp media upload button                |
+`premise_field_remove_btn`         | Filter       | filter the wp media remove button                |
+`premise_field_icon_insert_btn`    | Filter       | do filter for button to show fa icon             |
+`premise_field_icon_remove_btn`    | Filter       | do filter for button to hide fa icon             |
+`premise_field_section_html`       | Filter       | filter the field section html                    |
+`premise_field_wrapper_class`      | Filter       | filter the classes passed to the wrapper element |
+`premise_field_fa_icon_html`       | Trigger      | do filter for fa_icon field                      |
+`premiseFieldAfterInit`            | Trigger      | do hook after PremiseField object inits          |
+`premiseFieldAfterFaIconsOpen`     | Trigger      | do hook after icons box opens                    |
+`premiseFieldAfterFaIconsClose`    | Trigger      | do hook after icons close                        |
 
 ===  
 

@@ -1,14 +1,17 @@
 <?php
 /**
- * PremiseField Class
+ * Model Premise Field
  *
- * Create form fields by instantiating this class and passing some parameters. 
- * Each field will be an instance of this class.
- *
- * @see library/premise-field-library.php For functions that utilize this class
+ * @see library/premise-field-library.php For functions that that this class depends on
  *
  * @package Premise WP
  * @subpackage Model
+ */
+
+/**
+ * PremiseField Class
+ *
+ * Powers Premise WP options system. 
  */
 class PremiseField {
 
@@ -133,7 +136,7 @@ class PremiseField {
 	protected $btn_remove_file = '<a 
 		class="premise-btn-remove" 
 		href="javascript:void(0);" 
-		onclick="premiseRemoveFile(this)"
+		onclick="PremiseField.WPMedia.removeFile(this)"
 		><i class="fa fa-fw fa-times"></i></a>';
 
 
@@ -369,9 +372,9 @@ class PremiseField {
 		/**
 		 * Alter the label html
 		 *
-		 * this filter allows you to change the html of the label element of a field
-		 * passes the generated html to the function. additionaly paramters are all
-		 * the field arguments and the type of field being called.
+		 * this filter allows you to change the html of the label element for a field.
+		 * It passes the generated html to the function. additionally, it passes the
+		 * field's arguments and its type.
 		 *
 		 * @since 1.2 Added with new premise field class
 		 * 
@@ -386,7 +389,15 @@ class PremiseField {
 
 
 	/**
-	 * The field's html
+	 * The field's raw html
+	 *
+	 * Builds the fields raw html - without the div wrappers. This returns  only the 
+	 * minimum elements necessary for a field to work. Common fields don't require any
+	 * additional elements, but fields like a media uploader require a button to upload
+	 * and one to remove whatever was already uploaded. So this function will return the 
+	 * field plus the upload and remove buttons, nothing else.
+	 *
+	 * @var string $this->field_html holds the string for the raw field
 	 * 
 	 * @return string html for the raw field
 	 */
@@ -436,11 +447,11 @@ class PremiseField {
 		}
 
 		/**
-		 * filter the field html
+		 * filter the field's html
 		 *
-		 * Allow you to change the html passed to the field element
+		 * Allows you to change the html passed to the field element
 		 *
-		 * @since 1.2 
+		 * @since 1.2    added to allow even more control over the markup
 		 *
 		 * @premise-hook premise_field_raw_html filter the html for the field itself
 		 * 
@@ -455,8 +466,7 @@ class PremiseField {
 
 
 	/**
-	 * Builds our field and saves the html markup for it
-	 * in our object
+	 * Builds our field and saves the html for it in our object
 	 *
 	 * @return string HTML for field
 	 */
@@ -493,7 +503,7 @@ class PremiseField {
 		/**
 		 * filter the entire html
 		 *
-		 * Allow you to change the html passed to the field element
+		 * Allows you to change the html passed to the field element
 		 *
 		 * @since 1.2 
 		 *
@@ -506,7 +516,7 @@ class PremiseField {
 		/**
 		 * Remove filters
 		 *
-		 * @since 1.2 remove filters used
+		 * @since 1.2 remove filters used to avoid any conflicts
 		 */
 		$this->remove_filters();
 	}
@@ -617,8 +627,11 @@ class PremiseField {
 	/**
 	 * Silent Label
 	 *
-	 * Return a label for field that is not clickable
+	 * Return a label for a field that is not clickable
 	 * Used for checkbox fields and radio fields
+	 *
+	 * Automatically added to 'premise_field_label_html' filter if 
+	 * field is checkbox or radio
 	 *
 	 * @since 1.2 
 	 * 
@@ -656,26 +669,21 @@ class PremiseField {
 	/**
 	 * create select field options
 	 * 
-	 * @return string options elements for select dropdown
+	 * @return string option elements for select dropdown
 	 */
 	protected function select_options() {
 		
 		$options = '';
 
-		if( is_array( $this->field['value'] ) ) {
-
-			foreach ( (array) $this->field['options'] as $key => $value ) {
-				$options .= '<option  value="'.$value.'"';
-				$options .= (is_array( $this->field['value'] ) && in_array( $value, $this->field['value'] ) ) ? 'selected="selected"' : '';
-				$options .= '>'.$key.'</option>';
-			}
-		}
-		else { 
-			foreach ( (array) $this->field['options'] as $key => $value) {
-				$options .= '<option  value="'.$value.'"';
-				$options .= selected( $this->field['value'], $value, false );
-				$options .= '>'.$key.'</option>';
-			}	
+		foreach ( (array) $this->field['options'] as $key => $value ) {
+			$options .= '<option  value="'.$value.'"';
+				if( is_array( $this->field['value'] ) ) {
+					$options .= in_array( $value, $this->field['value'] ) ? 'selected="selected"' : '';
+				}
+				else {
+					$options .= selected( $this->field['value'], $value, false );
+				}
+			$options .= '>'.$key.'</option>';
 		}
 
 		return $options;
@@ -689,24 +697,24 @@ class PremiseField {
 	/**
 	 * create wp media upload field
 	 *
-	 * this field allow you to upload files using wordpress's
+	 * this field allows you to upload files using Wordpress
 	 * own media upload ui.
 	 *
-	 * @since 1.2 replace the file type since now you can use that independently
+	 * @since 1.2 replace the file type since now you can use that independently HTML5
 	 * 
-	 * @return string html for wo media upload field
+	 * @return string html for wp media upload field
 	 */
 	protected function wp_media() {
 
 		/**
-		 * We our own filter to alter the html of our input field
+		 * We add our own filter to build the media field off our input field
 		 */
 		add_filter( 'premise_field_input', array( $this, 'wp_media_input' ) );
 
 		/**
 		 * call the input field. 
 		 * 
-		 * This will be alter due to our hook above
+		 * This will be altered due to our hook above
 		 * 
 		 * @var string
 		 */
@@ -730,6 +738,13 @@ class PremiseField {
 		 */
 		$field .= apply_filters( 'premise_field_remove_btn', $this->btn_remove_file, $this->field );
 
+		/**
+		 * Filter to alter the html wp media field
+		 *
+		 * @since 1.2 
+		 * 
+		 * @premise-hook premise_field_wp_media_html filter the wp media field
+		 */
 		return apply_filters( 'premise_field_wp_media_html', $field, $this->field, $this->type );
 	}
 
@@ -741,7 +756,7 @@ class PremiseField {
 	 *
 	 * @since 1.2
 	 * 
-	 * @param  string $field the html for the field default
+	 * @param  string $field html for default input field
 	 * @return string        the new html for the field
 	 */
 	public function wp_media_input( $field ) {
@@ -762,14 +777,14 @@ class PremiseField {
 	protected function fa_icon() {
 
 		/**
-		 * We our own filter to alter the html of our input field
+		 * We add our own filter to buuild the field off our own input field
 		 */
 		add_filter( 'premise_field_input', array( $this, 'fa_icon_input' ) );
 
 		/**
 		 * call the input field. 
 		 * 
-		 * This will be alter due to our hook above
+		 * This will be altered due to our hook above
 		 * 
 		 * @var string
 		 */
@@ -809,7 +824,7 @@ class PremiseField {
 
 
 	/**
-	 * build our fa_icon input
+	 * build our fa_icon input element from our own input field
 	 *
 	 * @since 1.2
 	 * 
@@ -950,7 +965,7 @@ class PremiseField {
 	 * @since 1.2 added before but documented in this version
 	 * 
 	 * @param  string $name name attribute to know what option to look for
-	 * @return mixed       returns the value found or an empty string if nothing was found
+	 * @return  mixed       returns the value found or an empty string if nothing was found
 	 */
 	protected function get_db_value() {
 		
@@ -981,9 +996,9 @@ class PremiseField {
 	/**
 	 * get value of a field by context
 	 *
-	 * Context applies to where the field is saved. By default fields are assumed to be safed
+	 * Context applies to where the field is saved. By default fields are assumed to be saved
 	 * in the options table. But if adding fields to a custom post type, get_option() would not work anymore
-	 * so we pass the context 'post' and then Premise knows to get value from get_post_meta instead of get_option
+	 * so we pass the context 'post'. That's how Premise knows to get the value from get_post_meta() instead of get_option()
 	 *
 	 * @since 1.2 
 	 * 
@@ -1079,7 +1094,7 @@ class PremiseField {
 
 
 	/**
-	 * Generate attributes for input field
+	 * Get attributes for input field
 	 *
 	 * @since 1.2 
 	 * 
@@ -1120,7 +1135,11 @@ class PremiseField {
 
 
 	/**
-	 * get the field wraper classes
+	 * get the field's wraper classes
+	 *
+	 * This basically takes every parameter that was passed and adds it as a class
+	 * to the wrapper html with premise-field- as a prefix, additionally to the
+	 * regular class - premise-field.
 	 * 
 	 * @return string classes for field wrapper
 	 */
@@ -1132,6 +1151,15 @@ class PremiseField {
 		foreach( $this->field as $k => $v ) {
 			$class .= ! empty( $v ) ? ' premise-field-' . esc_attr( $k ) : '';
 		}
+
+		/**
+		 * Filter to alter the classes passed to the wrapper element
+		 *
+		 * @since 1.2
+		 *
+		 * @premise-hook premise_field_wrapper_class do filter for wrapper classes
+		 */
+		$class = apply_filters( 'premise_field_wrapper_class', $class );
 
 		return $class;
 	}
@@ -1163,9 +1191,5 @@ class PremiseField {
 	public function get_field() {
 		return $this->html;
 	}
-
-
-
-
 }
 ?>

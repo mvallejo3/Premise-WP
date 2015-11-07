@@ -1,62 +1,47 @@
 <?php
-
 /**
- * Plugin Name: Premise WP Framework
- * Description: A Wordpress Framework for developers.
- * Plugin URI:	https://github.com/vallgroup/Premise-WP
- * Version:     1.1
- * Author:      Vallgroup LLC
- * Author URI:  http://vallgroup.com
+ * Plugin Name: Premise WP
+ * Description: A Wordpress framework for developers who build themes and plugins. It allows you to quickly build options in the backend by doing the heavy lifting and repetitive tasks for you. Premise WP aslo comes with a CSS framework readily available on both the backend and frontend that allows you to quickly build responsive markup. To begin using Premise WP simply download and install the plugin, once you activate it you are all set! You can begin using it in your theme or plugin's code.
+ * Plugin URI:	https://github.com/____
+ * Version:     1.2.0
+ * Author:      Premise WP
+ * Author URI:  http://premisewp.com
  * License:     GPL
- * Text Domain: premise-text-domain
  *
  * @package Premise WP
  */
 
 
 
+
+
 define( 'PREMISE_PATH', plugin_dir_path(__FILE__) );
+define( 'PREMISE_URL', plugin_dir_url(__FILE__) );
 
-/**
- * Define our PREMISE_URL constant
- *
- * Check whether Premise WP is being used from a theme or a plugin
- * then, set the right URL accordingly. Makes sure everything is loaded properly
- *
- * @since 1.2 
- */
-if ( '' !== locate_template('Premise-WP/premise.php') ) 
-	define( 'PREMISE_URL', get_stylesheet_directory_uri() . '/Premise-WP/' );
-else 
-	define( 'PREMISE_URL', plugin_dir_url(__FILE__) );
+
+
+
+// Instantiate our main class and setup Premise WP
+// Must use 'plugins_loaded' hook
+add_action( 'plugins_loaded', array( Premise_WP::get_instance(), 'premise_setup' ) );
+
 
 
 
 /**
- * Intantiate and setup Premise
- */
-// $init = new Premise_WP_FW_Class;
-
-// $init->premise_setup();
-
-add_action( 'init', array( Premise_WP_FW_Class::get_instance(), 'premise_setup' ) );
-
-
-/**
- * The Premise Class
+ * Load Premise WP!
  *
- * This class starts premise instantiates the needed classes
- * and loads the premise css and js frameworks in the front-end 
- * and some parts of the backend.
+ * This is Premise WP main class.
  */
-class Premise_WP_FW_Class {
+class Premise_WP {
 	
 
 	/**
 	 * Plugin instance.
 	 *
 	 * @see get_instance()
-	 * @type object
+	 * 
+	 * @var object
 	 */
 	protected static $instance = NULL;
 
@@ -68,7 +53,7 @@ class Premise_WP_FW_Class {
 	 * 
 	 * @var string
 	 */
-	public $plugin_url = '';
+	public $plugin_url = PREMISE_URL;
 
 
 
@@ -100,45 +85,12 @@ class Premise_WP_FW_Class {
 	 * Access this plugin’s working instance
 	 *
 	 * @since   1.0
-	 * @return  object of this class
+	 * @return  object instance of this class
 	 */
 	public static function get_instance() {
 		NULL === self::$instance and self::$instance = new self;
 		
 		return self::$instance;
-	}
-
-	
-
-
-	
-	/**
-	 * Premise Hooks
-	 */
-	public function premise_hooks() {
-		
-
-		/**
-		 * Enqueue scripts
-		 */
-		add_action( 'wp_enqueue_scripts', array( $this, 'premise_scripts' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'premise_scripts' ) );
-
-
-		
-
-		/**
-		 * Add classes to body
-		 */
-		add_filter( 'body_class', array( $this, 'body_class' ) );
-
-
-
-
-		/**
-		 * Add classes to body
-		 */
-		add_filter( 'admin_body_class', array( $this, 'body_class' ) );
 	}
 
 
@@ -147,6 +99,8 @@ class Premise_WP_FW_Class {
 
 	/**
 	 * Setup Premise
+	 *
+	 * Does includes and registers hooks.
 	 *
 	 * @since   1.0
 	 */
@@ -161,7 +115,7 @@ class Premise_WP_FW_Class {
 
 
 	/**
-	 * Set Premise paths
+	 * Includes
 	 *
 	 * @since 1.0
 	 */
@@ -169,21 +123,43 @@ class Premise_WP_FW_Class {
 		require( 'includes/includes.php' );
 	}
 
+	
+
+
+	
+	/**
+	 * Premise Hooks
+	 *
+	 * Registers and enqueues scripts, adds classes to the body of DOM
+	 */
+	public function premise_hooks() {
+
+		// Enqueue scripts
+		add_action( 'wp_enqueue_scripts', array( $this, 'premise_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'premise_scripts' ) );
+
+		// Add classes to body
+		add_filter( 'body_class', array( $this, 'body_class' ) );
+
+		// Add classes to body
+		add_filter( 'admin_body_class', array( $this, 'body_class' ) );
+	}
+
 
 
 
 	/**
-	 * Add premise classes to body of document in the front-end
+	 * Add premise classes to body of document in the front-end and backend
 	 * 
 	 * @param  array $classes  array of classes being passed to the body
-	 * @return string          classes output into body element
+	 * @return string          array including our new classes
 	 */
 	public function body_class( $classes ) {
 		if ( is_admin() )
-			return $classes . 'premise-wp-framewrok Premise-WP';
+			return $classes . 'Premise-WP premise-wp-admin';
 		
-		$classes[] = 'premise-wp-framewrok';
 		$classes[] = 'Premise-WP';
+		$classes[] = 'premise-wp-frontend';
 		return $classes;
 	}
 
@@ -194,32 +170,29 @@ class Premise_WP_FW_Class {
 
 	/**
 	 * Premise CSS & JS
+	 *
+	 * Premise loads 2 main files: Premise-WP.min.css, and Premise-WP.min.js. In addition to these files
+	 * Premise also loads FontAwesome - a library of icons by Dave Gandy.
+	 *
+	 * Filters cming soon to allow more control over what loads
+	 *
+	 * @author Dvae Gandy http://twitter.com/davegandy
+	 * @see http://fontawesome.io/ For more information about FontAwesome
+	 *
+	 * @since 1.2 removed all other libraries. Replaced minicolors with Wordpress' wp_color and dropped msdropdown
 	 */
 	public function premise_scripts() {
 		//register styles
-		wp_register_style( 'premise_font_awesome', PREMISE_URL . 'includes/font-awesome-4.2.0/css/font-awesome.min.css' );
-		wp_register_style( 'premise_style_css'   , PREMISE_URL . 'css/Premise-Wp.min.css', array( 'premise_font_awesome' ) );
+		wp_register_style( 'premise_font_awesome', $this->plugin_url . 'includes/font-awesome-4.2.0/css/font-awesome.min.css' );
+		wp_register_style( 'premise_style_css'   , $this->plugin_url . 'css/Premise-Wp.min.css', array( 'premise_font_awesome' ) );
 		
 		//register scripts
-		wp_register_script( 'premise_script_js'  , PREMISE_URL . 'js/Premise-Wp.min.js', array( 'jquery', 'wp-color-picker' ) );
-
-		//if is admin, register & enqueue jquery.minicolors + ms-Dropdown + premise_admin
-		if ( is_admin() ) {
-			wp_register_script( 'minicolors_js'      , PREMISE_URL . 'includes/minicolors/jquery.minicolors.min.js');
-			wp_register_style( 'minicolors_css'      , PREMISE_URL . 'includes/minicolors/jquery.minicolors.css');
-
-			wp_enqueue_style( 'minicolors_css' );
-			wp_enqueue_script( 'minicolors_js' );
-
-			wp_register_script( 'msdropdown_js'      , PREMISE_URL . 'includes/msdropdown/jquery.dd.min.js');
-			wp_register_style( 'msdropdown_css'      , PREMISE_URL . 'includes/msdropdown/dd.css');
-
-			wp_enqueue_script( 'msdropdown_js' );
-			wp_enqueue_style( 'msdropdown_css' );
-		}
+		wp_register_script( 'premise_script_js'  , $this->plugin_url . 'js/Premise-Wp.min.js', array( 'jquery', 'wp-color-picker' ) );
 		
+		// For color picker to work
 		wp_enqueue_style( 'wp-color-picker' );
 
+		// enqueue our styles and scripts for both admin and frontend
 		wp_enqueue_style( 'premise_style_css' );
 		wp_enqueue_script( 'premise_script_js' );
 	}
@@ -231,12 +204,13 @@ class Premise_WP_FW_Class {
 	/**
 	 * Loads translation file.
 	 *
-	 * Accessible to other classes to load different language files (admin and
-	 * front-end for example).
+	 * Currently not supported. but here for future integration
 	 *
-	 * @wp-hook init
-	 * @param   string $domain
 	 * @since   1.0
+	 * 
+	 * @wp-hook init
+	 * 
+	 * @param   string $domain
 	 * @return  void
 	 */
 	public function load_language( $domain ) {
