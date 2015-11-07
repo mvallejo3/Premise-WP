@@ -209,9 +209,7 @@ class PremiseField {
 			$this->args = $args;
 		}
 
-		/**
-		 * Initiate the field
-		 */
+		// Initiate the field
 		$this->field_init();
 
 	}
@@ -224,19 +222,13 @@ class PremiseField {
 	 */
 	protected function field_init() {
 
-		/**
-		 * parse defaults and arguments
-		 */
+		// parse defaults and arguments
 		$this->set_defaults();
 
-		/**
-		 * get everything ready to build the field
-		 */
+		// get everything ready to build the field
 		$this->prepare_field();
 
-		/**
-		 * build the field
-		 */
+		// build the field
 		$this->build_field();
 				
 	}
@@ -257,14 +249,15 @@ class PremiseField {
 
 		/**
 		 * parse defaults and arguments
+		 *
+		 * @see https://codex.wordpress.org/Function_Reference/wp_parse_args documentation for wp_parse_args()
 		 * 
 		 * @var array
 		 */
 		$field = wp_parse_args( $this->args, $this->defaults );
 
 		/**
-		 * Make sure our field has its necessary values
-		 *
+		 * Make sure our field has its necessary attributes - name, id, value
 		 * Get the name field first since it is needed for the value field to be retreived.
 		 */
 		$field['name']  = $this->get_name();
@@ -274,11 +267,13 @@ class PremiseField {
 		/**
 		 * assign common attributes
 		 *
-		 * This allows the user to submit a param within the array of arguments in a simpler manner, like array( 'required' => true )
-		 * instead of array( 'required' => 'required' ).
+		 * For commonly (repetitive) attributes like required="required" you can simply pass required => true. We
+		 * know, is not a big deal, but why not make things easier?
 		 *
-		 * This params are also used in some places in our object to insert or add additioinal functionality to a field. 
-		 * e.g. On the select field if 'multiple' has been passed then we handle our options differenlty (array instead of string).
+		 * These params are also used in some places in our class to insert or add additioinal functionality to a field. 
+		 * On the select field if 'multiple' is true it adds multiple="multiple" to the field but also adds '[]' at end of the 
+		 * name attribute to ensure that the value is saved as an array. At the same time, when the value is retrieved and Premise
+		 * tries to find which options were selected it will loop through the array to find multiple options as expected.
 		 *
 		 * @since 1.2 
 		 */
@@ -1072,12 +1067,13 @@ class PremiseField {
 		if ( ! empty( $this->args['name'] ) ) {
 			$name = $this->args['name'];
 		}
-
+		// If name is empty try getting from id
 		elseif ( ! empty( $this->args['id'] ) ) {
 			$name = $this->args['id'];
 			$name = preg_replace('/[^-_a-z0-9]/', '', $name);
 		}
 
+		// If the field's 'multiple' attribute is true, and the name does not already have '[]' at the end of it, then add it.
 		$name = ( isset( $this->args['multiple'] ) && $this->args['multiple'] ) && ! preg_match('/\[\]$/', $this->args['name'] ) ? $name . '[]' : $name;
 
 		return $this->args['name'] = esc_attr( $name );
