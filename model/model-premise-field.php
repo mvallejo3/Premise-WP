@@ -290,24 +290,17 @@ class PremiseField {
 
 
 	/**
-	 * Prepare our field. This function assigns the values to the 
-	 * class properties needed to build a particular field
+	 * Prepare the field
 	 */
 	protected function prepare_field() {
 
-		/**
-		 * add filters before we do anything else
-		 */
+		// add filters before we do anything else
 		$this->add_filters();
 
-		/**
-		 * prep the label element
-		 */
+		// prep the label
 		$this->the_label();
 
-		/**
-		 * prep the field element
-		 */
+		// prep the field
 		$this->the_field();
 	}
 
@@ -316,10 +309,13 @@ class PremiseField {
 
 
 	/**
-	 * Add filters to a field
+	 * Add filters
 	 *
-	 * This has to run first to make sure that our filters get hooked before they are called
-	 * Unsets the filter argument at the end to avoid conflicts when printing attributes on field
+	 * This has to run first to make sure that our filters get hooked before they are called.
+	 * Unsets the filter argument at the end to avoid conflicts when printing attributes on field.
+	 *
+	 * Filters are passed strings containing the name of the filter and the function to call separated
+	 * by a ':'. i.e. premise_field_html_after_wrapper:function_to_call
 	 *
 	 * @since 1.2 
 	 */
