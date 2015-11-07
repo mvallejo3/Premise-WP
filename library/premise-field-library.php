@@ -120,6 +120,8 @@ function premise_field_section( $args = array(), $echo = true ) {
 	 * @see https://codex.wordpress.org/Function_Reference/add_filter Form instructions on how to add a filter.
 	 *
 	 * @since  1.2 replaces the 'container' params from old function. use to alter section's html
+	 *
+	 * @premise-hook premise_field_section_html do hook for field section html
 	 * 
 	 * @var string
 	 */
