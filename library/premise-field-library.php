@@ -2,8 +2,8 @@
 /**
  * Premise Field Library
  *
- * These functions are related only to the PremiseField class. Without this fiel
- * said class will not work properly, but the rest of Premise WP will not be affected.
+ * These functions are related only to the PremiseField class. Without this file
+ * said class will not work properly but the rest of Premise WP will not be affected.
  *
  * @see Premise-WP/model/model-premise-field.php PremiseField class lives here.
  *
@@ -19,18 +19,21 @@
 /**
  * Premise Field
  *
- * display or return a form field.
+ * Create any form field quickly by simply passing a few arguments to this function. The first
+ * argument is the type of element you are trying to create i.e. 'text', 'password', 'select'. 
+ * The second argument is an array of options that help build your form field. The options basically adds
+ * attributes to the field as well as tell Premise how to treat it in the backend of Wordpress.
+ * For example passing the 'name' attribute will add 'name="your_value"' to your field but it will also tell
+ * Premise where to save the value and how to retrieve it after a value has been saved.
  *
- * @since 1.2 Parametters order changed, new parametter added:
- *        Old params: (array) arguments, (boolean) echo
- *        New params: (string) type, (array) arguments, (boolean) echo
- * 
- * @see class PremiseField in model-premise-field.php
+ * @since 1.2 Parameters order changed, new parameter added:
+ *            Old params: (array) arguments, (boolean) echo
+ *            New params: (string) type, (array) arguments, (boolean) echo
  *
- * @param string $type  the type of field to print or return. i.e. text, textarea, checkbox, wp_media, video
- * @param  array  $args array of arguments to buid a field
+ * @param  string $type the type of field to print or return. i.e. text, textarea, checkbox, wp_media, video
+ * @param   array $args array of arguments to buid a field
  * @param boolean $echo true outputs the html on to the page. false returns it as a string
- * @return string         html markup for a form field
+ * @return string       html markup for a form field
  */
 function premise_field( $type = 'text', $args = array(), $echo = true ) {
 
@@ -41,7 +44,7 @@ function premise_field( $type = 'text', $args = array(), $echo = true ) {
 	 * 
 	 * @since 1.2 If the first param is an array, the function was called the old way
 	 *            or it was called from premise_field_section(). Unset 'type' and pass
-	 *            arguments correctly as expected by since 1.2
+	 *            arguments correctly as expected since 1.2
 	 */
 	if ( is_array( $type ) ) {
 
@@ -80,9 +83,8 @@ function premise_field( $type = 'text', $args = array(), $echo = true ) {
  *
  * Group of fields wrapped within one parent element.
  *
- * @since  1.2     Simplified parameters since version 1.2; You can no longer use 'container' parameters.
- *                 instead, future versions will incorporate filters and hooks to provide more control 
- *                 over the field section.
+ * @since  1.2     Simplified parameters. You can no longer use 'container' parameters.
+ *                 instead, use the 'premise_field_section_html' filter. 
  * 
  * @param  array   $args array of arrays. The fields to insert
  * @param  boolean $echo whether to echo ro return the string
@@ -109,53 +111,23 @@ function premise_field_section( $args = array(), $echo = true ) {
 		}
 	}
 
-
+	/**
+	 * premise_field_section_html filter
+	 *
+	 * control the way your field section is displayed. This filter will pass the field section
+	 * html to the function that you hook to it. 
+	 *
+	 * @see https://codex.wordpress.org/Function_Reference/add_filter Form instructions on how to add a filter.
+	 *
+	 * @since  1.2 replaces the 'container' params from old function. use to alter section's html
+	 * 
+	 * @var string
+	 */
 	$html = apply_filters( 'premise_field_section_html', $html );
 
 	remove_all_filters( 'premise_field_section_html' );
 
 	if( ! $echo )
-		return $html;
-	else
-		echo (string) $html;
-}
-
-
-
-
-/**
- * Old premise field section
- *
- * @since      1.2     Used to be premise_field_section(). Kept for backward compatibility.
- *
- * @deprecated 1.2     Replaced with premise_field_section()
- * 
- * @param      array   $args array of array for aguments to build field section
- * @param      boolean $echo wheteher to output the fields or return as string
- * @return     string  html for string. echoed or returned
- */
-function premise_field_section_deprecated( $args = array(), $echo = true ) {
-	$defaults = array(
-		'container'             => true,
-		'container_title'       => '',
-		'container_desc'        => '',
-		'container_class'       => '',
-		'container_inner_class' => '',
-		'fields' 				=> array(),
-	);
-
-	$field_section = wp_parse_args( $args, $defaults );
-
-	$html  = ( true === $field_section['container'] )                                                ? '<div class="field-section'                                     : '';
-	$html .= ( true === $field_section['container'] && !empty( $field_section['container_class'] ) ) ? ' ' . $field_section['container_class'] . '">'                  : '">';
-	$html .= !empty( $field_section['container_title'] )                                             ? '<h3>' . $field_section['container_title'] . '</h3>'            : '';
-	$html .= !empty( $field_section['container_desc'] )                                             ? '<p>' . $field_section['container_desc'] . '</p>'               : '';
-	$html .= !empty( $field_section['container_inner_class'] )                                       ? '<div class="' . $field_section['container_inner_class'] . '">' : '';
-	$html .= premise_field_deprecated( $field_section['fields'], false ); // This gets the actual field
-	$html .= !empty( $field_section['container_inner_class'] )                                       ? '</div>'                                                        : '';
-	$html .= ( true === $field_section['container'] )                                                ? '</div>'                                                        : '';
-
-	if( !$echo )
 		return $html;
 	else
 		echo (string) $html;
