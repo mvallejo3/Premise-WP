@@ -1,5 +1,5 @@
-/**
- * Premise WP Framework
+*
+ * Premise WP
  *
  * Global CSS Styling
  *
@@ -210,23 +210,29 @@ ul.premise-inline > li {
 }
 
 
-/* Responsive Resets */
-@media screen and (max-width:769px) {
-	.premise-row > .col5,
+/**
+ * @1000px - This would be a Tablet on portrait mode. (iPad landscape is 1024px)
+ */
+@media screen and (max-width:1000px) {
+	/**
+	 * Changes to Column grid
+	 */
+	/* Turn 6 columns into 3 stacked */
 	.premise-row > .col6 {
-		width:31.33%;
+		width: 31.33%;
 	}
 
-	.premise-row > .col5:nth-child(3n+1),
-	.premise-row > .col6:nth-child(3n+1) {
-		clear:left;
+	/* Turn 4 columns into 2 */
+	.premise-row > .col4 {
+		width: 48%;
 	}
+
+
 
 	.premise-row > .span1,
 	.premise-row > .span2,
 	.premise-row > .span3,
-	.premise-row > .span4,
-	.premise-row > .col4 {
+	.premise-row > .span4 {
 		width:48%;
 	}
 
@@ -238,7 +244,29 @@ ul.premise-inline > li {
 	}
 }
 
+/**
+ * @600px - Would be considered a mobile device
+ */
 @media screen and (max-width:600px) {
+
+	/**
+	 * Changes to Column grid
+	 */
+	/* Turn 6 columns into 2 stacked */
+	.premise-row > .col6 {
+		width: 48%;
+	}
+	/* Turn every other column into 1 stacked */
+	.premise-row > [class^="col"]:not(.col6),
+	.premise-row > [class*=" col"]:not(.col6) {
+		width: 98%;
+	}
+
+
+
+
+
+
 	.premise-row > .span1,
 	.premise-row > .span2,
 	.premise-row > .span3,
@@ -246,23 +274,12 @@ ul.premise-inline > li {
 	.premise-row > .span8,
 	.premise-row > .span9,
 	.premise-row > .span10,
-	.premise-row > .span11,
-	.premise-row > .col2,
-	.premise-row > .col3,
-	.premise-row > .col4 {
+	.premise-row > .span11 {
 		width:98%;
 		clear:both;
 	}
 
-	.premise-row > .col5,
-	.premise-row > .col6 {
-		width:48%;
-	}
-
-	.premise-row > .col5:nth-child(2n+1),
-	.premise-row > .col6:nth-child(2n+1) {
-		clear:left;
-	}
+	
 
 	.showonmobile{
 		display:block;
@@ -276,5 +293,3 @@ ul.premise-inline > li {
 		margin-left:1%;
 	}
 }
-
-/*Premise Built in functionality*/

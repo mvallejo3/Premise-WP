@@ -1,8 +1,13 @@
 /**
- * Premise Field Object JS
+ * Premise Field JS
  *
- * @author Mario Vallejo <mario@vallgroup.com>
+ * PremiseField object is required for Premise WP fields to work properly
+ * but it is not required for Premise WP core functionality.
+ *
  * @since 1.2
+ * 
+ * @package Premise WP JS
+ * @subpackage PremiseField
  */
 
 
@@ -11,18 +16,14 @@
 /**
  * PremiseField
  *
- * Holds functionality for all premise fields.
+ * Holds properties and methods needed for all premise fields.
  *
- * @package PremiseField
- * 
  * @type {Object}
  */
 var PremiseField = {
 
-
 	/**
-	 * Holds jquery object for the button that toggles
-	 * fa icons.
+	 * Holds jQuery object for fa_icon button to open icons.
 	 * 
 	 * @type {object}
 	 */
@@ -32,8 +33,7 @@ var PremiseField = {
 
 
 	/**
-	 * Holds jquery object for the button that toggles
-	 * fa icons.
+	 * Holds jQuery object for fa_icon button to close icons.
 	 * 
 	 * @type {object}
 	 */
@@ -43,9 +43,22 @@ var PremiseField = {
 
 
 	/**
-	 * Construct our object
+	 * Holds the jQuery object for fa_icon input field
 	 * 
-	 * @return {void} actas as a __contruct
+	 * @type {object}
+	 */
+	faInputField: null,
+
+
+
+
+	/**
+	 * Initiate the PremiseField object
+	 *
+	 * Constructs our object. Will eventually instantiate certain objects
+	 * based on the fields being used.
+	 * 
+	 * @return {void} 
 	 */
 	init: function() {
 
@@ -55,7 +68,12 @@ var PremiseField = {
 		// The hide icons button
 		this.faHideIconsBtn = jQuery('.premise-field-fa_icon .premise-remove-icon');
 
-		// bind events
+		// Each icon selector
+		this.faSelectIconBtn = jQuery('.premise-field-fa-icon-anchor');
+
+		// The input field 
+		this.faInputField = jQuery('.premise-field-fa_icon .premise-fa_icon');
+
 		this.bindEvents();
 
 		/**
@@ -74,48 +92,55 @@ var PremiseField = {
 
 
 	/**
-	 * Bind Evenets needed for Fields to work properly
+	 * Bind Events needed for Fields to work properly
 	 * 
 	 * @return {void} Binds events
 	 */
 	bindEvents: function() {
 
-		/**
-		 * Bind event for fa_icons to show
-		 */
-		this.faShowIconsBtn.click(this.showIcons);
+		// Display FA icons when btn is clicked or
+		// when the field itself is clicked on
+		this.faShowIconsBtn.click(PremiseField.faIcon.showIcons);
+		this.faInputField.focus(PremiseField.faIcon.showIcons);
 
+		// Hide FA icons when the delete btn is clicked on
+		// passing the argument true deletes the field's value
+		this.faHideIconsBtn.click(function(){PremiseField.faIcon.hideIcons(true)});
 
-		/**
-		 * Bind event for fa_icons to hide and delete
-		 */
-		this.faHideIconsBtn.click(function(){
-			/**
-			 * Delete value from Icon field only when 'x' is clicked
-			 */
-			jQuery(this).parents('.premise-field').find('input.premise-fa_icon').val('');
-			
-			/**
-			 * hide Icon box
-			 */
-			PremiseField.hideIcons
-		});
-	},
+		this.faInputField.keyup(PremiseField.faIcon.filterIcons);
+
+		// bind event for icons slection
+		this.faSelectIconBtn.click(PremiseField.faIcon.insertIcon);
+
+		// Bind success message
+		jQuery(document).on('premiseFieldAfterInit', function(){console.log('PremiseField Object Initited successfully.')});
+	}
+}
 
 
 
+
+/**
+ * FA Icon Object
+ *
+ * Holds methods needed for the 'fa_icon' field to function properly
+ * 
+ * @type {Object}
+ */
+PremiseField.faIcon = {
 
 	/**
-	 * display fa_icons
+	 * Display the icons
 	 * 
-	 * @return {void} displays fa icons and binds event to close
+	 * @return {void} displays fa icons container
 	 */
 	showIcons: function() {
-
-		var parent = PremiseField.faShowIconsBtn.parents('.premise-field');
-		var icons = parent.find('.premise-field-fa-icons-container');
+		var self = PremiseField.faIcon,
+		parent   = jQuery(this).parents('.premise-field'),
+		icons    = parent.find('.premise-field-fa-icons-container');
 
 		jQuery(icons).show('fast');
+		jQuery('body').addClass('premise-field-fa-icon-container-visible');
 
 		/**
 		 * premiseFieldAfterFaIconsOpen
@@ -129,12 +154,6 @@ var PremiseField = {
 		 */
 		jQuery(document).trigger('premiseFieldAfterFaIconsOpen', icons, parent );
 
-		// also add event for icons slection
-		jQuery(document).on('click', '.premise-field-fa-icon-anchor', PremiseField.insertIcon);
-
-		// bind body to close icons box
-		jQuery(document).on('click', 'body', PremiseField.hideIcons);
-
 		return false;
 	},
 
@@ -142,24 +161,25 @@ var PremiseField = {
 
 
 	/**
-	 * Hide Icons
+	 * Hide the Icons
 	 *
-	 * This hides icons and deletes the field's value
-	 * If the user simply click somehwere else in the screen
-	 * the icons window will close. This event will additionally
-	 * dellet the icon field.
-	 * 
-	 * @return {void} close window and deletes field's vlaue
+	 * @param {boolean} empty if true will empty the field. default false
+	 * @return {void}   hides icons
 	 */
-	hideIcons: function() {
+	hideIcons: function(empty) {
+		empty = 'boolean' === typeof empty ? empty : false;
 		
-		var parent = PremiseField.faHideIconsBtn.parents('.premise-field');
-		var icons = parent.find('.premise-field-fa-icons-container');
+		var e  = window.event,
+		parent = jQuery(e.target).parents('.premise-field'),
+		icons  = parent.find('.premise-field-fa-icons-container');
 
-		/**
-		 * Hide icons box
-		 */
+		// empty the field if argument 'empty' is true
+		if ( true === empty ) {
+			parent.find('input.premise-fa_icon').val('');
+		}
+
 		jQuery(icons).hide('fast');
+		jQuery('body').removeClass('premise-field-fa-icon-container-visible');
 
 		/**
 		 * premiseFieldAfterFaIconsClose
@@ -173,33 +193,69 @@ var PremiseField = {
 		 */
 		jQuery(document).trigger('premiseFieldAfterFaIconsClose', icons, parent );
 
-		// Just in case
-		PremiseField.bindEvents();
-
 		return false;
 	},
 
 
 
+
 	/**
-	 * insert selected icon into our icon field
+	 * insert selected icon into our field
 	 * 
 	 * @return {string} icon class to use
 	 */
 	insertIcon: function() {
-		// get icon
 		var icon = jQuery(this).attr('data-icon');
-		// place it in field
+		
 		jQuery(this).parents('.premise-field').find('input.premise-fa_icon').val(icon);
+		
 		// close icons
-		jQuery('body').trigger('click');
+		PremiseField.faIcon.hideIcons();
+	},
+
+
+
+
+	/**
+	 * display icons based on what the user types into the field
+	 *
+	 * Will display only icons that match the string submitted.
+	 * 
+	 * @param  {object} e event
+	 * @return {void}     hides or display icons that match the string submitted
+	 */
+	filterIcons: function(e) {
+		e = e || window.event;
+
+		var self = PremiseField.faIcon,
+		field    = jQuery(this),
+		parent   = field.parents('.premise-field'),
+		icons    = parent.find('.premise-field-fa-icons-container .premise-field-fa-icon-li'),
+		s        = field.val();
+
+		// Filter icons
+		icons.each(function(i,v) {
+			var a = jQuery(this).find('.premise-field-fa-icon-anchor').attr('data-icon');
+			
+			if ( ! a.match(s) ) {
+				jQuery(this).hide();
+			}
+			else {
+				jQuery(this).show();
+			}
+		});
 	}
 }
 
 
 
+
 /**
  * PremiseField WPMedia Object
+ *
+ * Holds methods needed for the 'wp_media' field to work porperly.
+ *
+ * @type {object}
  */
 PremiseField.WPMedia = {
 
@@ -211,12 +267,16 @@ PremiseField.WPMedia = {
 	uploader: null,
 
 
+
+
 	/**
 	 * Whether to allow multiple files to be uploaded or not
 	 * 
 	 * @type {boolean}
 	 */
 	isMulti: false,
+
+
 
 	
 	/**
@@ -325,7 +385,7 @@ PremiseField.WPMedia = {
 	 */
 	handleFiles: function() {
 		var $this = PremiseField.WPMedia;
-		console.log($this.mediaUploaded);
+		
 		$this.mediaField.val($this.mediaUploaded);
 	},
 

@@ -1,3 +1,9 @@
+/**
+ * Load Premise WP core JS
+ * 
+ * @package Premise WP JS
+ * @subpackage Premise
+ */
 jQuery(function($){
 
 	/**
@@ -5,16 +11,14 @@ jQuery(function($){
 	 */
 	PremiseField.init();
 
-	PremiseAjax.init();
-
 });
-
 
 
 
 
 /**
  * Premise Same Height
+ * 
  * @param  {string} el the class of the elements to set same height
  * @return {mixed}     will set same min-height to elements. bool false if unsuccessful
  */
@@ -46,4 +50,25 @@ function premiseSameHeight( el ) {
 	jQuery.when( setUp ).done( fixHeight );
 	
 	return false;
+}
+
+
+
+
+/**
+ * Count visible elements within an array
+ *
+ * Useful little tool. quickly number of visible elements within an array.
+ * 
+ * @param  {array}   elements array of elements to check if are visible
+ * @return {integer}          number of elements that are visible in the front end
+ */
+function premiseCountVisibleElements(elements) {
+	elements = elements || [];
+	var visible = 0;
+
+	elements.each(function(i,v){
+		jQuery(v).is(':visible') ? visible++ : '';
+	});
+	return visible;
 }
