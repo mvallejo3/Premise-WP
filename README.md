@@ -142,7 +142,7 @@ Class  | Output                                     |
 **Responsive:** There are 2 breakpoints when it comes to the column grid. The first is at 1000px the second at 600px. In order to maintain
 asthetics consistent on a site, the only `col` classes that change at 1000px are `col4` and `col6` - `col4` goes from 4 columns to 2 and `col6`
 goes from 6 columns to 3. We don't change `col2`, `col3`, or `col5` at 1000px on purpose - for `col2` is too early and the other 2 cannot be eveny
-divided. At 600px every `col` class, except `col6`, will go to 1 column stacked. `col6` will go to 2 columns.
+divided. At 600px every `col` class, except `col6`, goes to 1 column stacked. `col6` goes to 2 columns.
 
 #### Grid with different column widths
 
