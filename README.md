@@ -144,7 +144,7 @@ asthetics consistent on a site, the only `col` classes that change at 1000px are
 goes from 6 columns to 3. We don't change `col2`, `col3`, or `col5` at 1000px on purpose - for `col2` is too early and the other 2 cannot be eveny
 divided. At 600px every `col` class, except `col6`, goes to 1 column stacked. `col6` goes to 2 columns.
 
-#### Grid with different column widths
+#### Span Grid
 
 To create grids that have different column widths use the class `span` instead of `col`. The number that comes after each `span` class represent the number of columns that element should occupy.
 `span` grids are based on a 12 column grid where the `premise-row` element is broken down into 12 columns - _`span1` occupies 1 out of 12 columns, `span4` occupies 4 out of 12 columns, etc_.

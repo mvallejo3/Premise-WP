@@ -68,8 +68,13 @@ module.exports = function(grunt) {
 				roundingPrecision: -1
 			},
 			target: {
-				files: {
-					'css/<%= pkg.name %>.min.css': ['css/source/*.css']
+				files: {  // Right now we are skipping the build
+					'css/<%= pkg.name %>.min.css': [
+						'css/source/premise.css',
+						'css/source/premise-field.css',
+						'css/source/premise-admin.css',
+						'css/source/premise-responsive.css'
+					]
 				}
 			}
 		},

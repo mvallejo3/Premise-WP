@@ -19,6 +19,7 @@
 	position: relative;
 	display: block;
 	margin-bottom: 20px;
+	box-sizing: border-box;
 }
 
 /**
@@ -49,6 +50,7 @@
  *
  * NOT checkbox, radio
  */
+.premise-field input,
 .premise-field input[type="text"],
 .premise-field input[type="username"],
 .premise-field input[type="password"],
@@ -70,9 +72,9 @@
 .premise-field select {
 	display: block;
 	width: 100%;
-	padding: 5px;
-	line-height: 115%;
-	font-size: 14px;
+	padding: 7px 5px;
+	line-height: 1.2em;
+	font-size: 1em;
 }
 
 /**
@@ -84,22 +86,46 @@
 .premise-field input[type="radio"] {
 	display: inline-block;
 	padding: 2px;
+	width: auto;
+}
+
+/**
+ * Button input fields
+ */
+.premise-field input[type="button"],
+.premise-field input[type="submit"],
+.premise-field input[type="reset"] {
+	display: inline-block;
+	padding: 10px 20px;
+	width: auto;
 }
 
 /**
  * Placeholders
  */
 .premise-field > div ::-webkit-input-placeholder {
-	line-height: 100%;
+	line-height: inherit;
+	font-size: inherit;
+	color: inherit;
+	letter-spacing: 1px;
 }
 .premise-field > div :-moz-placeholder {
-	line-height: 100%;
+	line-height: inherit;
+	font-size: inherit;
+	color: inherit;
+	letter-spacing: 1px;
 }
 .premise-field > div ::-moz-placeholder {
-	line-height: 100%;
+	line-height: inherit;
+	font-size: inherit;
+	color: inherit;
+	letter-spacing: 1px;
 }
 .premise-field > div :-ms-input-placeholder {
-	line-height: 100%;
+	line-height: inherit;
+	font-size: inherit;
+	color: inherit;
+	letter-spacing: 1px;
 }
 
 /**
@@ -209,7 +235,9 @@
  *
  * @see http://www.sitepoint.com/css3-toggle-switch/
  */
-.premise-field > .premise-field-checkbox {}
+.premise-field > .premise-field-checkbox {
+	display: inline-block;
+}
 
 .premise-field .premise-field-checkbox input:empty {
 	margin-left: -999px;
@@ -244,6 +272,12 @@
 	transition: all 100ms ease-in;
 }
 
+.premise-field .premise-field-checkbox input:empty ~ .premise-field-state:before {
+	content: 'OFF';
+	text-indent: 0.3em;
+	color: #fff;
+}
+
 .premise-field .premise-field-checkbox input:empty ~ .premise-field-state:after {
 	width: 2.4em;
 	top: 0.1em;
@@ -259,12 +293,6 @@
 	border-radius: 0;
 	border-top-left-radius: 0.3em;
 	border-bottom-left-radius: 0.3em;
-}
-
-.premise-field .premise-field-checkbox input:empty ~ .premise-field-state:before {
-	content: 'OFF';
-	text-indent: 0.3em;
-	color: #fff;
 }
 .premise-field .premise-field-checkbox input:checked ~ .premise-field-state:before {
 	content: 'ON';

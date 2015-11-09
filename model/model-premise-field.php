@@ -590,6 +590,8 @@ class PremiseField {
 	protected function checkbox() {
 		
 		$field  = '<input type="'. $this->type .'"';
+
+		$field .= ! empty( $this->field['value_att'] ) ? ' value="' . $this->field['value_att'] . '"' : 'value="1"';
 		
 		$field .= $this->get_atts();
 
@@ -612,6 +614,8 @@ class PremiseField {
 	protected function radio() {
 		
 		$field  .= '<input type="'.$this->type.'"';
+
+		$field .= ! empty( $this->field['value_att'] ) ? ' value="' . $this->field['value_att'] . '"' : 'value="1"';
 		
 		$field .= $this->get_atts();
 
@@ -1145,8 +1149,8 @@ class PremiseField {
 	 */
 	protected function get_wrapper_class() {
 
-		// Start with the main class
-		$class = 'premise-field';
+		// Start with the main classes
+		$class = 'premise-field premise-field-type-' . $this->type;
 
 		foreach( $this->field as $k => $v ) {
 			$class .= ! empty( $v ) ? ' premise-field-' . esc_attr( $k ) : '';

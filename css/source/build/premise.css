@@ -1,4 +1,4 @@
-*
+/*
  * Premise WP
  *
  * Global CSS Styling
@@ -207,89 +207,4 @@ ul.premise-inline > li {
 
 .col6 {
 	width:14.6%;
-}
-
-
-/**
- * @1000px - This would be a Tablet on portrait mode. (iPad landscape is 1024px)
- */
-@media screen and (max-width:1000px) {
-	/**
-	 * Changes to Column grid
-	 */
-	/* Turn 6 columns into 3 stacked */
-	.premise-row > .col6 {
-		width: 31.33%;
-	}
-
-	/* Turn 4 columns into 2 */
-	.premise-row > .col4 {
-		width: 48%;
-	}
-
-
-
-	.premise-row > .span1,
-	.premise-row > .span2,
-	.premise-row > .span3,
-	.premise-row > .span4 {
-		width:48%;
-	}
-
-	.premise-row > .span8,
-	.premise-row > .span9,
-	.premise-row > .span10,
-	.premise-row > .span11 {
-		width:98%;
-	}
-}
-
-/**
- * @600px - Would be considered a mobile device
- */
-@media screen and (max-width:600px) {
-
-	/**
-	 * Changes to Column grid
-	 */
-	/* Turn 6 columns into 2 stacked */
-	.premise-row > .col6 {
-		width: 48%;
-	}
-	/* Turn every other column into 1 stacked */
-	.premise-row > [class^="col"]:not(.col6),
-	.premise-row > [class*=" col"]:not(.col6) {
-		width: 98%;
-	}
-
-
-
-
-
-
-	.premise-row > .span1,
-	.premise-row > .span2,
-	.premise-row > .span3,
-	.premise-row > .span4,
-	.premise-row > .span8,
-	.premise-row > .span9,
-	.premise-row > .span10,
-	.premise-row > .span11 {
-		width:98%;
-		clear:both;
-	}
-
-	
-
-	.showonmobile{
-		display:block;
-	}
-	.hideonmobile{
-		display:none;
-	}
-	.fullwidthmobile{
-		width:98%;
-		margin-right:1%;
-		margin-left:1%;
-	}
 }
